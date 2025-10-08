@@ -26,7 +26,7 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: ui-*.gem
+          files: uin-*.gem
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -39,6 +39,6 @@ jobs:
           :rubygems_api_key: ${{ secrets.RUBYGEMS_API_KEY }}
           EOF
           chmod 0600 ~/.gem/credentials
-          gem push ui-*.gem
+          gem push uin-*.gem
         env:
           RUBYGEMS_API_KEY: ${{ secrets.RUBYGEMS_API_KEY }}

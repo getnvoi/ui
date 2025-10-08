@@ -1,7 +1,7 @@
 require_relative "lib/ui/version"
 
 Gem::Specification.new do |spec|
-  spec.name        = "nvoi-ui"
+  spec.name        = "uin"
   spec.version     = Ui::VERSION
   spec.authors     = [ "Ben" ]
   spec.email       = [ "ben@dee.mx" ]
