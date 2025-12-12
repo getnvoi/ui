@@ -6,14 +6,12 @@
     id: id,
     disabled: disabled,
     required: required) do %>
-  <input
-    type="<%= type || 'text' %>"
+  <textarea
     id="<%= id %>"
     name="<%= name %>"
-    value="<%= value %>"
     placeholder="<%= placeholder %>"
-    autocomplete="<%= autocomplete %>"
-    class="<%= Aeros::FormBuilder::BaseComponent::INPUT_BASE_CLASSES.join(' ') %>"
+    rows="<%= rows %>"
+    class="<%= Aeros::FormBuilder::BaseComponent::INPUT_BASE_CLASSES.join(' ') %> resize-y"
     <%= 'disabled' if disabled %>
     <%= 'required' if required %>
     <% if data.any? %>
@@ -21,5 +19,5 @@
         data-<%= key.to_s.dasherize %>="<%= val %>"
       <% end %>
     <% end %>
-  />
+  ><%= value %></textarea>
 <% end %>

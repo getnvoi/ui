@@ -35,7 +35,7 @@ class Aeros::FormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def field(field_type, name, options = {}, &block)
-    klass = "Aeros::Input#{field_type.to_s.classify}::Component".constantize
+    klass = "::Aeros::Input#{field_type.to_s.camelize}::Component".constantize
     resolved_name = resolve_name(name)
     error_text = @object&.errors&.[](name)&.first
 
@@ -61,6 +61,22 @@ class Aeros::FormBuilder < ActionView::Helpers::FormBuilder
 
   def select_field(name, options = {}, &block)
     field(:select, name, options, &block)
+  end
+
+  def text_area_field(name, options = {})
+    field(:text_area, name, options)
+  end
+
+  def tagging_field(name, options = {})
+    field(:tagging, name, options)
+  end
+
+  def attachments_field(name, options = {})
+    field(:attachments, name, options)
+  end
+
+  def text_area_ai_field(name, options = {})
+    field(:text_area_ai, name, options)
   end
 
   private

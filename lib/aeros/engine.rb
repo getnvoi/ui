@@ -2,6 +2,7 @@ require "importmap-rails"
 require "view_component-contrib"
 require "dry-effects"
 require "tailwind_merge"
+require "lucide-rails"
 
 module Aeros
   class << self
@@ -16,6 +17,12 @@ module Aeros
       if app.config.respond_to?(:assets)
         app.config.assets.paths << root.join("app/javascript")
         app.config.assets.paths << root.join("app/components")
+      end
+    end
+
+    initializer "aeros.helpers" do
+      ActiveSupport.on_load(:action_controller) do
+        helper Aeros::ApplicationHelper
       end
     end
 

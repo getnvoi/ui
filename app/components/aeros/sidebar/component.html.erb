@@ -1,0 +1,31 @@
+<div class="<%= default_styles %>">
+  <div class="main">
+    <% if header? %>
+      <div class="header"><%= header %></div>
+    <% end %>
+
+    <% if items.any? || groups.any? %>
+      <nav class="nav">
+        <% if items.any? %>
+          <ul class="<%= style(:menu) %>">
+            <% items.each do |item| %>
+              <li><%= item %></li>
+            <% end %>
+          </ul>
+        <% end %>
+
+        <% groups.each do |group| %>
+          <%= group %>
+        <% end %>
+      </nav>
+    <% end %>
+
+    <% if content? %>
+      <div class="content"><%= content %></div>
+    <% end %>
+  </div>
+
+  <% if footer? %>
+    <div class="footer"><%= footer %></div>
+  <% end %>
+</div>

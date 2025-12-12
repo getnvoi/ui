@@ -1,7 +1,14 @@
 @import "tailwindcss";
 
+@source "../../../components/**/*.{rb,erb}";
+@source "../../../views/**/*.{erb,html}";
+
 @layer base {
   html {
     @apply text-stone-700;
+  }
+
+  * {
+    border-color: theme("colors.slate.200");
   }
 }

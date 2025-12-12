@@ -1,7 +1,10 @@
 module Aeros
   class ApplicationViewComponent < ViewComponentContrib::Base
     extend(Dry::Initializer)
+    include(Turbo::StreamsHelper)
+    include(Turbo::FramesHelper)
     include(Aeros::ApplicationHelper)
+    include(LucideRails::RailsHelper)
     include(ViewComponentContrib::StyleVariants)
 
     style_config.postprocess_with do |classes|
@@ -10,7 +13,7 @@ module Aeros
 
     option(:css, optional: true)
     def default_styles
-      [style, css].join(" ")
+      TailwindMerge::Merger.new.merge([style, css].join(" "))
     end
 
     class << self

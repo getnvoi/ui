@@ -27,6 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "view_component", "~> 4.0"
   spec.add_dependency "view_component-contrib", "~> 0.2.5"
   spec.add_dependency "dry-effects", "~> 0.5.0"
+  spec.add_dependency "lucide-rails", "~> 0.3"
 
   spec.add_development_dependency "tailwind_merge", "~> 1.3"
 end

@@ -1,17 +1,29 @@
-<div class="<%= classes %>">
+<div class="<%= classes %>" data-controller="aeros--dropdown" data-aeros--dropdown-searchable-value="<%= searchable %>">
   <div>
     <%= ui("button",
            label: label,
-           icon: "chevron-down",
+           icon: "chevrons-up-down",
            variant: button_variant,
            size: button_size,
-           data: { "dropdown-menu-toggle": "" }) %>
+           data: { action: "click->aeros--dropdown#toggle" }) %>
   </div>
 
   <div class="hidden origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10"
        role="menu"
-       aria-orientation="vertical">
-    <div class="py-1">
+       aria-orientation="vertical"
+       data-aeros--dropdown-target="menu">
+
+    <% if searchable %>
+      <div class="p-2 border-b border-gray-100">
+        <input type="text"
+               class="w-full px-3 py-2 text-sm border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-transparent"
+               placeholder="<%= placeholder %>"
+               data-aeros--dropdown-target="search"
+               data-action="input->aeros--dropdown#filter" />
+      </div>
+    <% end %>
+
+    <div class="py-1 max-h-60 overflow-y-auto">
       <% if groups.any? %>
         <% groups.each do |group| %>
           <%= group %>
@@ -20,6 +32,12 @@
         <% options.each do |option| %>
           <%= option %>
         <% end %>
+      <% end %>
+
+      <% if searchable %>
+        <div class="hidden px-4 py-2 text-sm text-gray-500" data-aeros--dropdown-target="empty">
+          <%= empty_message %>
+        </div>
       <% end %>
     </div>
   </div>
