@@ -131,12 +131,101 @@ end
 
 ### CSS Variables
 
-Use theme variables from `lib/aeros/theme.rb`:
+Use variables defined in `lib/aeros/theme.rb` schema:
 
 ```css
 background-color: var(--ui-card-bg);
 border-radius: var(--ui-card-radius);
 ```
+
+---
+
+## Theming System
+
+### Architecture
+
+Ruby schema → CSS layers → User overrides.
+
+**Cascade order (lowest to highest priority):**
+
+| Layer | Source | Purpose |
+|-------|--------|---------|
+| `@layer aeros-base` | Gem defaults | Schema-driven defaults |
+| `@layer aeros-theme` | Preset CSS (slate/zinc) | Color palette |
+| `@layer aeros-config` | Ruby initializer | User configuration |
+| (unlayered) | User's CSS | Final overrides |
+
+### Schema (`lib/aeros/theme.rb`)
+
+Ruby is the **single source of truth** for what variables exist:
+
+- **PRIMITIVES**: Base tokens (colors, radii, spacing, shadows)
+- **CORNERSTONES**: Component tokens referencing primitives
+
+### Variable Naming
+
+| Category | Pattern | Examples |
+|----------|---------|----------|
+| Global | `--ui-{name}` | `--ui-background`, `--ui-foreground` |
+| Component | `--ui-{component}-{prop}` | `--ui-input-bg`, `--ui-card-radius` |
+
+### Component CSS
+
+Reference schema variables:
+
+```css
+.cp-input-text__input {
+  background: var(--ui-input-bg);
+  border: 1px solid var(--ui-input-border);
+  color: var(--ui-input-fg);
+}
+```
+
+### User Configuration (Ruby)
+
+```ruby
+# config/initializers/aeros.rb
+Aeros.configure do |config|
+  config.theme do |t|
+    t.input_bg = "#fafafa"
+    t.input_border = "#d1d5db"
+  end
+end
+```
+
+### Theme Tag
+
+```erb
+<%# In layout <head> %>
+<%= aeros_theme_tag %>
+```
+
+Outputs (compressed, in correct layer):
+
+```html
+<style>@layer aeros-config{:root{--ui-input-bg:#fafafa;--ui-input-border:#d1d5db}}</style>
+```
+
+### User CSS Override
+
+User CSS (loaded last, no layer) always wins:
+
+```css
+/* app/assets/stylesheets/my-overrides.css */
+:root {
+  --ui-input-bg: #fff;
+}
+```
+
+### Theme Presets
+
+Presets via `data-theme` attribute:
+
+```html
+<html data-theme="slate" data-mode="light">
+```
+
+Available: `slate`, `zinc`
 
 ---
 
@@ -279,6 +368,8 @@ Tests automatically verify:
 - All components have `styles.css`
 - CSS uses correct BEM prefix (`cp-`, `cb-`)
 - Rendered HTML contains BEM class
+- Component CSS only uses variables defined in schema (`theme.rb`)
+- Theme presets (`themes/*.css`) define all schema variables
 
 Run: `bundle exec rails test test/components/aeros/components_test.rb`
 

@@ -1,10 +1,15 @@
-/* Base */
-@import "./reset.css";
-@import "./base.css";
-@import "./utilities.css";
+/* Layer order - lowest to highest priority */
+@layer aeros-reset, aeros-base, aeros-theme, aeros-components, aeros-config;
 
-/* Themes */
-@import "./theme.css";
+/* Reset (lowest layer) */
+@import "./reset.css" layer(aeros-reset);
+
+/* Base defaults */
+@import "./base.css" layer(aeros-base);
+@import "./utilities.css" layer(aeros-base);
+
+/* Theme presets */
+@import "./theme.css" layer(aeros-theme);
 
 /* Component styles */
-@import-glob "../../../components/**/*.css";
+@import-glob "../../../components/**/*.css" layer(aeros-components);

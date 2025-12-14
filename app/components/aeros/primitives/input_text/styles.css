@@ -7,21 +7,21 @@
   width: 100%;
   padding: 0.5rem 0.75rem;
   font-size: 0.875rem;
-  color: var(--ui-foreground);
-  background: var(--ui-input);
-  border: 1px solid var(--ui-border);
-  border-radius: var(--ui-radius);
+  color: var(--ui-input-fg);
+  background: var(--ui-input-bg);
+  border: 1px solid var(--ui-input-border);
+  border-radius: var(--ui-input-radius, 0.375rem);
   outline: none;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .cp-input-text__input::placeholder {
-  color: var(--ui-muted-foreground);
+  color: var(--ui-input-placeholder);
 }
 
 .cp-input-text__input:focus {
-  border-color: var(--ui-ring);
-  box-shadow: 0 0 0 1px var(--ui-ring);
+  border-color: var(--ui-input-border-focus);
+  box-shadow: 0 0 0 1px var(--ui-input-ring);
 }
 
 .cp-input-text__input:disabled {

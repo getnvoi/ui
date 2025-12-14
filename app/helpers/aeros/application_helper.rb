@@ -16,5 +16,13 @@ module Aeros
       component = "Aeros::Blocks::#{class_name}::Component".constantize
       render(component.new(*args, **kwargs), &blk)
     end
+
+    # Output theme configuration as inline CSS in the aeros-config layer
+    def aeros_theme_tag
+      css = Aeros.configuration.theme_css
+      return "".html_safe if css.empty?
+
+      "<style>#{css}</style>".html_safe
+    end
   end
 end

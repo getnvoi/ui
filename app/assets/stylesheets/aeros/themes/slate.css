@@ -7,6 +7,16 @@
   --ui-background: #ffffff;
   --ui-foreground: #0f172a;
 
+  /* Generic */
+  --ui-border: #e2e8f0;
+  --ui-destructive: #dc2626;
+  --ui-primary: #0f172a;
+  --ui-accent: #f1f5f9;
+  --ui-accent-foreground: #0f172a;
+  --ui-popover: #ffffff;
+  --ui-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  --ui-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+
   /* Muted */
   --ui-muted: #f1f5f9;
   --ui-muted-foreground: #64748b;
@@ -15,6 +25,7 @@
   --ui-card-bg: #ffffff;
   --ui-card-fg: #0f172a;
   --ui-card-border: #e2e8f0;
+  --ui-card-radius: 0.75rem;
   --ui-card-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
 
   /* Area */
@@ -76,6 +87,16 @@
   /* Background & Foreground */
   --ui-background: #0f172a;
   --ui-foreground: #f8fafc;
+
+  /* Generic */
+  --ui-border: #334155;
+  --ui-destructive: #dc2626;
+  --ui-primary: #f8fafc;
+  --ui-accent: #1e293b;
+  --ui-accent-foreground: #f8fafc;
+  --ui-popover: #1e293b;
+  --ui-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.3);
+  --ui-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.3);
 
   /* Muted */
   --ui-muted: #1e293b;
