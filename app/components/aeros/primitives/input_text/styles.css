@@ -1,4 +1,38 @@
-/* Input Text - uses shared input styles */
+/* Input Text */
 .cp-input-text {
-  /* Component wrapper - styles in input_wrapper */
+}
+
+.cp-input-text__input {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  color: var(--ui-foreground);
+  background: var(--ui-input);
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius);
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.cp-input-text__input::placeholder {
+  color: var(--ui-muted-foreground);
+}
+
+.cp-input-text__input:focus {
+  border-color: var(--ui-ring);
+  box-shadow: 0 0 0 1px var(--ui-ring);
+}
+
+.cp-input-text__input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.cp-input-text__input--error {
+  border-color: var(--ui-destructive);
+}
+
+.cp-input-text__input--error:focus {
+  box-shadow: 0 0 0 1px var(--ui-destructive);
 }

@@ -1,19 +1,19 @@
-<div class="<%= style %> <%= css %>">
-  <div class="mx-auto max-w-3xl px-6">
-    <div class="flex gap-4">
-      <div class="flex-shrink-0">
-        <div class="flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold text-white <%= avatar_color %>">
+<div class="cp-conversation-streaming">
+  <div class="cp-conversation-streaming__container">
+    <div class="cp-conversation-streaming__row">
+      <div class="cp-conversation-streaming__avatar-wrapper">
+        <div class="cp-conversation-streaming__avatar <%= avatar_class %>">
           <%= avatar_label %>
         </div>
       </div>
-      <div class="min-w-0 flex-1">
-        <div class="mb-1 text-sm font-semibold text-gray-900">
+      <div class="cp-conversation-streaming__content">
+        <div class="cp-conversation-streaming__label">
           <%= label %>
         </div>
-        <div class="flex items-center gap-1">
-          <div class="h-2 w-2 animate-bounce rounded-full bg-gray-400" style="animation-delay: 0ms;"></div>
-          <div class="h-2 w-2 animate-bounce rounded-full bg-gray-400" style="animation-delay: 150ms;"></div>
-          <div class="h-2 w-2 animate-bounce rounded-full bg-gray-400" style="animation-delay: 300ms;"></div>
+        <div class="cp-conversation-streaming__dots">
+          <div class="cp-conversation-streaming__dot" style="animation-delay: 0ms;"></div>
+          <div class="cp-conversation-streaming__dot" style="animation-delay: 150ms;"></div>
+          <div class="cp-conversation-streaming__dot" style="animation-delay: 300ms;"></div>
         </div>
       </div>
     </div>

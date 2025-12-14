@@ -1,13 +1,13 @@
-<div class="<%= 'opacity-50 pointer-events-none' if disabled %>">
+<div class="cp-input-slider <%= 'cp-input-slider--disabled' if disabled %>">
   <% if label || show_value %>
-    <div class="flex items-center justify-between mb-2">
+    <div class="cp-input-slider__header">
       <% if label %>
-        <label for="<%= input_id %>" class="block text-sm font-medium text-foreground">
+        <label for="<%= input_id %>" class="cp-input-slider__label">
           <%= label %>
         </label>
       <% end %>
       <% if show_value %>
-        <span class="text-sm text-muted-foreground font-mono" data-slider-value><%= value %></span>
+        <span class="cp-input-slider__value" data-slider-value><%= value %></span>
       <% end %>
     </div>
   <% end %>
@@ -20,7 +20,7 @@
     min="<%= min %>"
     max="<%= max %>"
     step="<%= step %>"
-    class="<%= classes %>"
+    class="cp-input-slider__input"
     <%= 'disabled' if disabled %>
     <% data.each do |key, val| %>
       data-<%= key.to_s.dasherize %>="<%= val %>"
@@ -28,6 +28,6 @@
   />
 
   <% if helper_text %>
-    <p class="mt-1 text-sm text-muted-foreground"><%= helper_text %></p>
+    <p class="cp-input-slider__helper"><%= helper_text %></p>
   <% end %>
 </div>

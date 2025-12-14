@@ -1,20 +1,20 @@
-<div class="<%= style(role:) %> <%= css %>">
-  <div class="mx-auto max-w-3xl px-6">
-    <div class="flex gap-4">
-      <div class="flex-shrink-0">
-        <div class="flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold text-white <%= avatar_color %>">
+<div class="cp-conversation-message <%= role_class %>">
+  <div class="cp-conversation-message__container">
+    <div class="cp-conversation-message__row">
+      <div class="cp-conversation-message__avatar-wrapper">
+        <div class="cp-conversation-message__avatar <%= avatar_class %>">
           <%= avatar_label %>
         </div>
       </div>
-      <div class="min-w-0 flex-1">
-        <div class="mb-1 text-sm font-semibold text-gray-900">
+      <div class="cp-conversation-message__content">
+        <div class="cp-conversation-message__role">
           <%= role_label %>
         </div>
-        <div class="prose prose-sm max-w-none whitespace-pre-wrap text-gray-800">
+        <div class="cp-conversation-message__body">
           <%= content %>
         </div>
         <% if timestamp %>
-          <div class="mt-1 text-xs text-gray-500">
+          <div class="cp-conversation-message__timestamp">
             <%= timestamp %>
           </div>
         <% end %>

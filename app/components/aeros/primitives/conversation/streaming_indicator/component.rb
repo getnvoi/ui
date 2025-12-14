@@ -1,31 +1,17 @@
 module Aeros::Primitives::Conversation::StreamingIndicator
   class Component < ::Aeros::ApplicationViewComponent
-    option(:role, default: proc { "assistant" })
-    option(:label, default: proc { "Assistant" })
+    prop :role, description: "Role being streamed", default: -> { "assistant" }
+    prop :label, description: "Label text", default: -> { "Assistant" }
 
-    style do
-      base { "py-8 bg-gray-50" }
-    end
-
-    def avatar_color
-      case role
-      when "user"
-        "bg-blue-600"
-      when "assistant"
-        "bg-green-600"
-      else
-        "bg-gray-600"
-      end
+    def avatar_class
+      "cp-conversation-streaming__avatar--#{role}"
     end
 
     def avatar_label
-      case role
-      when "user"
-        "U"
-      when "assistant"
-        "A"
-      else
-        role[0].upcase
+      case role.to_s
+      when "user" then "U"
+      when "assistant" then "A"
+      else role.to_s[0].upcase
       end
     end
   end

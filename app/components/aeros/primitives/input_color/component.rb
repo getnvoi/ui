@@ -2,35 +2,28 @@
 
 module Aeros::Primitives::InputColor
   class Component < ::Aeros::ApplicationViewComponent
-    option(:name)
-    option(:id, optional: true)
-    option(:value, default: proc { "#000000" })
-    option(:label, optional: true)
-    option(:helper_text, optional: true)
-    option(:disabled, default: proc { false })
-    option(:data, default: proc { {} })
-    option(:size, default: proc { :default })
+    prop :name, description: "Input name attribute"
+    prop :id, description: "Input id", optional: true
+    prop :value, description: "Current color value", default: -> { "#000000" }
+    prop :label, description: "Label text", optional: true
+    prop :helper_text, description: "Helper text", optional: true
+    prop :disabled, description: "Disabled state", default: -> { false }
+    prop :data, description: "Data attributes", default: -> { {} }
+    prop :size, description: "Size variant", values: [:small, :default, :large], default: -> { :default }
 
-    style do
-      base do
-        %w[
-          rounded-input
-          cursor-pointer
-          border
-          border-input-border
-          focus:outline-none
-          focus-visible:ring-2
-          focus-visible:ring-ring
-          focus-visible:ring-offset-2
-        ]
+    examples("Input Color", description: "Color picker input") do |b|
+      b.example(:default, title: "Default") do |e|
+        e.preview name: "color"
       end
 
-      variants do
-        size do
-          small { "w-8 h-8" }
-          default { "w-10 h-10" }
-          large { "w-12 h-12" }
-        end
+      b.example(:with_label, title: "With Label") do |e|
+        e.preview name: "brand_color", label: "Brand Color", value: "#6366f1"
+      end
+
+      b.example(:sizes, title: "Sizes") do |e|
+        e.preview name: "small", size: :small
+        e.preview name: "default", size: :default
+        e.preview name: "large", size: :large
       end
     end
 
@@ -38,8 +31,12 @@ module Aeros::Primitives::InputColor
       id || name
     end
 
-    def classes
-      [css, style(size:)].compact.join(" ")
+    def size_class
+      case size.to_sym
+      when :small then "cp-input-color--small"
+      when :large then "cp-input-color--large"
+      else ""
+      end
     end
   end
 end

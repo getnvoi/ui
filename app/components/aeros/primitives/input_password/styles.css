@@ -2,6 +2,37 @@
 .cp-input-password {
 }
 
+.cp-input-password__field {
+  position: relative;
+}
+
+.cp-input-password__input {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 2.5rem 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  color: var(--ui-foreground);
+  background: var(--ui-input);
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius);
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.cp-input-password__input::placeholder {
+  color: var(--ui-muted-foreground);
+}
+
+.cp-input-password__input:focus {
+  border-color: var(--ui-ring);
+  box-shadow: 0 0 0 1px var(--ui-ring);
+}
+
+.cp-input-password__input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .cp-input-password__toggle {
   position: absolute;
   right: 0.5rem;
@@ -22,4 +53,9 @@
 .cp-input-password__toggle-icon {
   width: 1rem;
   height: 1rem;
+  display: block;
+}
+
+.cp-input-password__toggle-icon--hidden {
+  display: none;
 }

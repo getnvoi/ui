@@ -81,7 +81,7 @@ class Aeros::ComponentsTest < ViewComponent::TestCase
     end
   end
 
-  # Test: All examples render without errors
+  # Test: All examples render with expected BEM classes
   discover_components.each do |component|
     klass = component[:klass]
 
@@ -89,13 +89,17 @@ class Aeros::ComponentsTest < ViewComponent::TestCase
 
     klass.examples_list.each do |example|
       example.previews.each_with_index do |preview, idx|
-        test "#{component[:namespace]}/#{component[:name]} example '#{example.key}' preview #{idx} renders" do
+        test "#{component[:namespace]}/#{component[:name]} example '#{example.key}' preview #{idx} renders with BEM class" do
           instance = klass.new(**preview.props)
+          result = render_inline(instance)
 
-          # Render should not raise
-          render_inline(instance)
+          # Derive expected BEM class
+          prefix = component[:namespace] == "primitives" ? "cp" : "cb"
+          expected_class = "#{prefix}-#{component[:name].tr('_', '-')}"
 
-          assert_selector("*") # At least something rendered
+          html = result.to_html
+          assert_match(/class="[^"]*\b#{expected_class}\b/, html,
+            "#{component[:namespace]}/#{component[:name]} must render with .#{expected_class} class")
         end
       end
     end

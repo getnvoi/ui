@@ -1,79 +1,73 @@
-<%= render Aeros::Primitives::InputWrapper::Component.new(
-    label: label,
-    helper_text: helper_text,
-    error_text: error_text,
-    name: name,
-    id: id,
-    disabled: disabled,
-    required: required) do %>
-  <div class="relative"
-       data-controller="<%= controller_name %>"
-       <%= stimulus_values.map { |k, v| "data-#{k.dasherize}=\"#{ERB::Util.html_escape(v)}\"" }.join(" ").html_safe %>>
+<div class="cp-input-tagging">
+  <%= render Aeros::Primitives::InputWrapper::Component.new(
+      label: label,
+      helper_text: helper_text,
+      error_text: error_text,
+      name: name,
+      id: id,
+      disabled: disabled,
+      required: required) do %>
+    <div class="cp-input-tagging__container"
+         data-controller="<%= controller_name %>"
+         <%= stimulus_values.map { |k, v| "data-#{k.dasherize}=\"#{ERB::Util.html_escape(v)}\"" }.join(" ").html_safe %>>
 
-    <%# Selected tags display %>
-    <div class="flex flex-wrap gap-1.5 mb-2 min-h-[28px]" data-<%= controller_name %>-target="selectedContainer">
-      <% selected_tags.each do |tag| %>
-        <span class="inline-flex items-center gap-x-1 rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10"
-              data-<%= controller_name %>-target="tag"
-              data-tag-name="<%= tag %>">
-          <%= tag %>
-          <button type="button"
-                  class="group relative -mr-1 h-3.5 w-3.5 rounded-sm hover:bg-indigo-600/20"
-                  data-action="click-><%= controller_name %>#removeTag">
-            <%= lucide_icon("x", class: "h-3 w-3") %>
-          </button>
-        </span>
-      <% end %>
-    </div>
-
-    <%# Hidden inputs for form submission %>
-    <div data-<%= controller_name %>-target="hiddenInputs">
-      <% selected_tags.each do |tag| %>
-        <input type="hidden" name="<%= input_name %>" value="<%= tag %>">
-      <% end %>
-    </div>
-
-    <%# Search input %>
-    <div class="relative">
-      <input type="text"
-             class="<%= Aeros::FormBuilder::BaseComponent::INPUT_BASE_CLASSES.join(' ') %>"
-             placeholder="<%= placeholder || 'Search or add tags...' %>"
-             autocomplete="off"
-             data-<%= controller_name %>-target="search"
-             data-action="input-><%= controller_name %>#onSearchInput focus-><%= controller_name %>#onFocus keydown-><%= controller_name %>#onKeydown"
-             <%= 'disabled' if disabled %>>
-
-      <%# Dropdown menu %>
-      <div class="hidden absolute z-10 mt-1 w-full rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 max-h-60 overflow-auto"
-           data-<%= controller_name %>-target="dropdown">
-
-        <%# Loading state %>
-        <div class="hidden px-4 py-2 text-sm text-gray-500 flex items-center gap-2" data-<%= controller_name %>-target="loading">
-          <%= ui("spinner", size: :sm) %>
-          <span>Loading...</span>
-        </div>
-
-        <%# Options container %>
-        <div class="py-1" data-<%= controller_name %>-target="optionsContainer">
-        </div>
-
-        <%# Create new tag option %>
-        <% if allow_create %>
-          <div class="hidden border-t border-gray-100" data-<%= controller_name %>-target="createOption">
+      <div class="cp-input-tagging__tags" data-<%= controller_name %>-target="selectedContainer">
+        <% selected_tags.each do |tag| %>
+          <span class="cp-input-tagging__tag"
+                data-<%= controller_name %>-target="tag"
+                data-tag-name="<%= tag %>">
+            <%= tag %>
             <button type="button"
-                    class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
-                    data-action="click-><%= controller_name %>#createTag">
-              <%= lucide_icon("plus", class: "h-4 w-4") %>
-              <span>Create "<span data-<%= controller_name %>-target="createLabel"></span>"</span>
+                    class="cp-input-tagging__tag-remove"
+                    data-action="click-><%= controller_name %>#removeTag">
+              <%= lucide_icon("x", class: "cp-input-tagging__tag-icon") %>
             </button>
-          </div>
+          </span>
         <% end %>
+      </div>
 
-        <%# Empty state %>
-        <div class="hidden px-4 py-2 text-sm text-gray-500" data-<%= controller_name %>-target="empty">
-          No tags found.
+      <div data-<%= controller_name %>-target="hiddenInputs">
+        <% selected_tags.each do |tag| %>
+          <input type="hidden" name="<%= input_name %>" value="<%= tag %>">
+        <% end %>
+      </div>
+
+      <div class="cp-input-tagging__search">
+        <input type="text"
+               class="cp-input-tagging__input"
+               placeholder="<%= placeholder || 'Search or add tags...' %>"
+               autocomplete="off"
+               data-<%= controller_name %>-target="search"
+               data-action="input-><%= controller_name %>#onSearchInput focus-><%= controller_name %>#onFocus keydown-><%= controller_name %>#onKeydown"
+               <%= 'disabled' if disabled %>>
+
+        <div class="cp-input-tagging__dropdown cp-input-tagging__dropdown--hidden"
+             data-<%= controller_name %>-target="dropdown">
+
+          <div class="cp-input-tagging__loading cp-input-tagging__loading--hidden" data-<%= controller_name %>-target="loading">
+            <%= ui("spinner", size: :sm) %>
+            <span>Loading...</span>
+          </div>
+
+          <div class="cp-input-tagging__options" data-<%= controller_name %>-target="optionsContainer">
+          </div>
+
+          <% if allow_create %>
+            <div class="cp-input-tagging__create cp-input-tagging__create--hidden" data-<%= controller_name %>-target="createOption">
+              <button type="button"
+                      class="cp-input-tagging__create-btn"
+                      data-action="click-><%= controller_name %>#createTag">
+                <%= lucide_icon("plus", class: "cp-input-tagging__create-icon") %>
+                <span>Create "<span data-<%= controller_name %>-target="createLabel"></span>"</span>
+              </button>
+            </div>
+          <% end %>
+
+          <div class="cp-input-tagging__empty cp-input-tagging__empty--hidden" data-<%= controller_name %>-target="empty">
+            No tags found.
+          </div>
         </div>
       </div>
     </div>
-  </div>
-<% end %>
+  <% end %>
+</div>
