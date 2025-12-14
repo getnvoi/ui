@@ -1,0 +1,35 @@
+/* Input Text Area AI */
+.cp-input-text-area-ai {
+}
+
+.cp-input-text-area-ai__container {
+  position: relative;
+}
+
+.cp-input-text-area-ai__textarea {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  padding-bottom: 2.5rem;
+  font-size: 0.875rem;
+  color: var(--ui-foreground);
+  background: var(--ui-input);
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius);
+  outline: none;
+  resize: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.cp-input-text-area-ai__textarea:focus {
+  border-color: var(--ui-ring);
+  box-shadow: 0 0 0 1px var(--ui-ring);
+}
+
+.cp-input-text-area-ai__actions {
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  display: flex;
+  gap: 0.25rem;
+}

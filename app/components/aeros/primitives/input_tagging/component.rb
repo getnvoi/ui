@@ -2,11 +2,25 @@
 
 module Aeros::Primitives::InputTagging
   class Component < ::Aeros::FormBuilder::BaseComponent
-    option(:tags_url, optional: true)
-    option(:create_url, optional: true)
-    option(:selected_tags, default: proc { [] })
-    option(:allow_create, default: proc { true })
-    option(:max_tags, optional: true)
+    prop :tags_url, description: "URL to fetch tags", optional: true
+    prop :create_url, description: "URL to create new tags", optional: true
+    prop :selected_tags, description: "Pre-selected tags", default: -> { [] }
+    prop :allow_create, description: "Allow creating new tags", default: -> { true }
+    prop :max_tags, description: "Maximum number of tags", optional: true
+
+    examples("Input Tagging", description: "Tag input with autocomplete") do |b|
+      b.example(:default, title: "Default") do |e|
+        e.preview name: "tags"
+      end
+
+      b.example(:with_selected, title: "With Selected Tags") do |e|
+        e.preview name: "tags", selected_tags: [{ id: 1, name: "Ruby" }, { id: 2, name: "Rails" }]
+      end
+
+      b.example(:limited, title: "Limited Tags") do |e|
+        e.preview name: "tags", max_tags: 3
+      end
+    end
 
     def stimulus_values
       values = {

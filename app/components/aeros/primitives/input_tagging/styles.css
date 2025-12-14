@@ -1,0 +1,54 @@
+/* Input Tagging */
+.cp-input-tagging {
+}
+
+.cp-input-tagging__container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  min-height: 2.5rem;
+  background: var(--ui-input);
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.cp-input-tagging__container:focus-within {
+  border-color: var(--ui-ring);
+  box-shadow: 0 0 0 1px var(--ui-ring);
+}
+
+.cp-input-tagging__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.125rem 0.5rem;
+  font-size: 0.75rem;
+  background: var(--ui-accent);
+  color: var(--ui-accent-foreground);
+  border-radius: var(--ui-radius-sm);
+}
+
+.cp-input-tagging__tag-remove {
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  opacity: 0.7;
+}
+
+.cp-input-tagging__tag-remove:hover {
+  opacity: 1;
+}
+
+.cp-input-tagging__input {
+  flex: 1;
+  min-width: 100px;
+  padding: 0.25rem;
+  font-size: 0.875rem;
+  background: transparent;
+  border: none;
+  outline: none;
+}

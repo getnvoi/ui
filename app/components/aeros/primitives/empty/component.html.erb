@@ -1,10 +1,13 @@
-<div class="p-6">
-  <div class="flex items-center justify-center flex-col border border-dashed border-stone-300 rounded-lg p-6 min-h-[300px]">
-    <div class="flex items-center justify-center flex-col space-y-4">
-      <% if title %>
-        <div class="font-bold text-xl"><%= title %></div>
+<div class="cp-empty">
+  <div class="cp-empty__container">
+    <div class="cp-empty__content">
+      <% if icon %>
+        <%= lucide_icon(icon, class: "cp-empty__icon") %>
       <% end %>
-      <div>
+      <% if title %>
+        <div class="cp-empty__title"><%= title %></div>
+      <% end %>
+      <div class="cp-empty__description">
         <%= content %>
       </div>
     </div>

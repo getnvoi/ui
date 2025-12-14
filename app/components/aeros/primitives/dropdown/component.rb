@@ -9,6 +9,23 @@ module Aeros::Primitives::Dropdown
     prop :searchable, description: "Enable search input", default: -> { false }
     prop :placeholder, description: "Search placeholder", default: -> { "Search..." }
 
+    examples("Dropdown", description: "Floating menu with items") do |b|
+      b.example(:default, title: "Default") do |e|
+        e.preview
+      end
+
+      b.example(:placement, title: "Placement", description: "Position options") do |e|
+        e.preview placement: :bottom
+        e.preview placement: :top
+        e.preview placement: :left
+        e.preview placement: :right
+      end
+
+      b.example(:searchable, title: "Searchable") do |e|
+        e.preview searchable: true
+      end
+    end
+
     renders_one :trigger
     renders_many :items, types: {
       item: {

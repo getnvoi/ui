@@ -1,24 +1,24 @@
-<div class="flex flex-col w-full">
-  <div class="flex items-center justify-between py-6 space-x-6">
-    <div class="w-full min-w-0 truncate">
-      <h1 class="flex items-center space-x-2 font-semibold text-3xl tracking-tight">
-        <span class="flex-shrink truncate min-w-0 max-w-2/3"><%= title %></span>
+<div class="cp-page">
+  <div class="cp-page__header">
+    <div class="cp-page__title-area">
+      <h1 class="cp-page__title">
+        <span class="cp-page__title-text"><%= title %></span>
         <% if subtitle %>
-          <span class="text-gray-500/70 flex-shrink-0"><%= subtitle %></span>
+          <span class="cp-page__subtitle"><%= subtitle %></span>
         <% end %>
       </h1>
       <% if description %>
-        <p class="mt-2 text-gray-600"><%= description %></p>
+        <p class="cp-page__description"><%= description %></p>
       <% end %>
     </div>
     <% if actions_area %>
-      <div class="flex-shrink-0">
+      <div class="cp-page__actions">
         <%= actions_area %>
       </div>
     <% end %>
   </div>
 
-  <div class="pb-6 w-full">
+  <div class="cp-page__content">
     <%= content %>
   </div>
 </div>

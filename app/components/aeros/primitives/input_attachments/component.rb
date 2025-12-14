@@ -2,11 +2,25 @@
 
 module Aeros::Primitives::InputAttachments
   class Component < ::Aeros::FormBuilder::BaseComponent
-    option(:accept, default: proc { "*/*" })
-    option(:max_files, optional: true)
-    option(:max_size, optional: true) # in bytes
-    option(:existing, default: proc { [] }) # Array of existing attachments with {id, url, filename, position}
-    option(:direct_upload_url, optional: true)
+    prop :accept, description: "Accepted file types", default: -> { "*/*" }
+    prop :max_files, description: "Maximum number of files", optional: true
+    prop :max_size, description: "Maximum file size in bytes", optional: true
+    prop :existing, description: "Existing attachments", default: -> { [] }
+    prop :direct_upload_url, description: "Direct upload URL", optional: true
+
+    examples("Input Attachments", description: "File upload with drag and drop") do |b|
+      b.example(:default, title: "Default") do |e|
+        e.preview name: "attachments"
+      end
+
+      b.example(:images_only, title: "Images Only") do |e|
+        e.preview name: "images", accept: "image/*"
+      end
+
+      b.example(:limited, title: "Limited Files") do |e|
+        e.preview name: "documents", max_files: 5
+      end
+    end
 
     def stimulus_values
       values = {

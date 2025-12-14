@@ -1,20 +1,20 @@
-<div class="<%= 'opacity-50 pointer-events-none' if disabled %>" data-<%= data.to_json if data.any? %>>
+<div class="cp-input-wrapper <%= 'cp-input-wrapper--disabled' if disabled %>">
   <% if label %>
-    <label for="<%= id || name %>" class="block text-sm font-medium text-foreground mb-1">
+    <label for="<%= id || name %>" class="cp-input-wrapper__label">
       <%= label %>
       <% if required %>
-        <span class="text-destructive">*</span>
+        <span class="cp-input-wrapper__required">*</span>
       <% end %>
     </label>
   <% end %>
 
-  <div class="relative">
+  <div class="cp-input-wrapper__field">
     <%= content %>
   </div>
 
   <% if error_text %>
-    <p class="mt-1 text-sm text-input-error"><%= error_text %></p>
+    <p class="cp-input-wrapper__error"><%= error_text %></p>
   <% elsif helper_text %>
-    <p class="mt-1 text-sm text-muted-foreground"><%= helper_text %></p>
+    <p class="cp-input-wrapper__helper"><%= helper_text %></p>
   <% end %>
 </div>

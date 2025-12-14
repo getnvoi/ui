@@ -13,13 +13,11 @@
     value="<%= value %>"
     placeholder="<%= placeholder %>"
     autocomplete="<%= autocomplete %>"
-    class="<%= Aeros::FormBuilder::BaseComponent::INPUT_BASE_CLASSES.join(' ') %>"
+    class="cp-input <%= 'cp-input--error' if error_text %>"
     <%= 'disabled' if disabled %>
     <%= 'required' if required %>
-    <% if data.any? %>
-      <% data.each do |key, val| %>
-        data-<%= key.to_s.dasherize %>="<%= val %>"
-      <% end %>
+    <% data.each do |key, val| %>
+      data-<%= key.to_s.dasherize %>="<%= val %>"
     <% end %>
   />
 <% end %>

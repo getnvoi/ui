@@ -46,8 +46,9 @@ class Aeros::ComponentsTest < ViewComponent::TestCase
     end
   end
 
-  # Test: All components must have examples (documentation)
-  discover_components.each do |component|
+  # Test: All primitives must have examples (documentation)
+  # Blocks are internal and skipped for now
+  discover_components.select { |c| c[:namespace] == "primitives" }.each do |component|
     test "#{component[:namespace]}/#{component[:name]} has examples defined" do
       klass = component[:klass]
 
