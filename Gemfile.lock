@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    aeno (0.0.2)
+    aeno (0.0.3)
       dry-effects (~> 0.5.0)
       importmap-rails (~> 2.2.2)
       lucide-rails (~> 0.3)

@@ -2,22 +2,8 @@ module Aeno::Primitives::Layouts::Agentic
   class Component < Aeno::ApplicationViewComponent
     renders_one :sidebar, Aeno::Primitives::Sidebar::Component
 
-    style do
-      base do
-        [
-          "fixed",
-          "top-0",
-          "left-0",
-          "right-0",
-          "bottom-0",
-          "w-screen",
-          "h-screen",
-          "grid",
-          "grid-cols-[1fr_5fr]",
-          "divide-x",
-          "divide-slate-200"
-        ]
-      end
+    def component_classes
+      classes
     end
   end
 end
