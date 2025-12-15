@@ -1,0 +1,60 @@
+<div class="cp-input-attachments">
+  <%= render Aeno::Primitives::InputWrapper::Component.new(
+      label: label,
+      helper_text: helper_text,
+      error_text: error_text,
+      name: name,
+      id: id,
+      disabled: disabled,
+      required: required) do %>
+    <div class="cp-input-attachments__container"
+         data-controller="<%= controller_name %>"
+         <%= stimulus_values.map { |k, v| "data-#{k.dasherize}=\"#{ERB::Util.html_escape(v)}\"" }.join(" ").html_safe %>>
+
+      <div class="cp-input-attachments__dropzone"
+           data-<%= controller_name %>-target="dropzone"
+           data-action="click-><%= controller_name %>#triggerFileInput dragover-><%= controller_name %>#onDragOver dragleave-><%= controller_name %>#onDragLeave drop-><%= controller_name %>#onDrop">
+        <div class="cp-input-attachments__dropzone-content">
+          <%= lucide_icon("upload-cloud", class: "cp-input-attachments__icon") %>
+          <div class="cp-input-attachments__text">
+            <span class="cp-input-attachments__link">Click to upload</span> or drag and drop
+          </div>
+          <div class="cp-input-attachments__hint">
+            <%= accept == "*/*" ? "Any file type" : accept %>
+            <% if max_size %>
+              (max <%= number_to_human_size(max_size) %>)
+            <% end %>
+          </div>
+        </div>
+
+        <input type="file"
+               class="cp-input-attachments__file-input"
+               multiple
+               accept="<%= accept %>"
+               data-<%= controller_name %>-target="fileInput"
+               data-action="change-><%= controller_name %>#onFileSelect"
+               <%= 'disabled' if disabled %>>
+      </div>
+
+      <div class="cp-input-attachments__progress cp-input-attachments__progress--hidden" data-<%= controller_name %>-target="progressContainer">
+        <div class="cp-input-attachments__progress-info">
+          <%= ui("spinner", size: :sm) %>
+          <span>Uploading...</span>
+          <span data-<%= controller_name %>-target="progressText">0%</span>
+        </div>
+        <div class="cp-input-attachments__progress-track">
+          <div class="cp-input-attachments__progress-bar"
+               style="width: 0%"
+               data-<%= controller_name %>-target="progressBar"></div>
+        </div>
+      </div>
+
+      <div class="cp-input-attachments__previews"
+           data-<%= controller_name %>-target="previewsContainer">
+      </div>
+
+      <div data-<%= controller_name %>-target="hiddenInputs">
+      </div>
+    </div>
+  <% end %>
+</div>

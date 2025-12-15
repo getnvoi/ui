@@ -1,0 +1,81 @@
+/* Spinner component styles */
+.cp-spinner {
+  position: relative;
+  inset: 0;
+  padding-left: 0.5rem;
+  margin-right: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+
+  &::before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-top: -0.625rem;
+    margin-left: -0.625rem;
+    border-radius: 9999px;
+    border-width: 2px;
+    border-style: solid;
+    animation: spin 1s linear infinite;
+  }
+
+  /* Sizes */
+  &--xs::before {
+    width: 0.75rem;
+    height: 0.75rem;
+    margin-top: -0.375rem;
+    margin-left: -0.375rem;
+  }
+
+  &--sm::before {
+    width: 1rem;
+    height: 1rem;
+    margin-top: -0.5rem;
+    margin-left: -0.5rem;
+  }
+
+  &--lg::before {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-top: -0.75rem;
+    margin-left: -0.75rem;
+  }
+
+  &--xl::before {
+    width: 2rem;
+    height: 2rem;
+    margin-top: -1rem;
+    margin-left: -1rem;
+  }
+
+  /* Variants */
+  &--white::before {
+    border-color: rgb(255 255 255 / 0.5);
+    border-top-color: white;
+  }
+
+  &--default::before {
+    border-color: rgb(107 114 128 / 0.5);
+    border-top-color: rgb(107 114 128);
+  }
+
+  &--primary::before {
+    border-color: rgb(from var(--ui-button-bg, #475569) r g b / 0.5);
+    border-top-color: var(--ui-button-bg, #475569);
+  }
+
+  &--black::before {
+    border-color: rgb(0 0 0 / 0.5);
+    border-top-color: black;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

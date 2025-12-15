@@ -1,0 +1,28 @@
+/* Card component styles */
+.cp-card {
+  background-color: var(--ui-card-bg);
+  color: var(--ui-card-fg);
+  border: 1px solid var(--ui-card-border);
+  border-radius: var(--ui-card-radius);
+  box-shadow: var(--ui-card-shadow);
+
+  /* Layout */
+  &--centered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Variants */
+  &--ghost {
+    border-color: transparent;
+    box-shadow: none;
+    background-color: transparent;
+  }
+
+  &--elevated {
+    box-shadow:
+      0 10px 15px -3px rgb(0 0 0 / 0.1),
+      0 4px 6px -4px rgb(0 0 0 / 0.1);
+  }
+}

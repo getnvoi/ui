@@ -1,0 +1,45 @@
+<h1 class="text-2xl font-bold mb-2">Button</h1>
+<p class="text-muted-foreground mb-8">Cornerstone component for clickable actions.</p>
+
+<div class="space-y-8">
+  <section>
+    <h2 class="text-lg font-semibold mb-4">Variants</h2>
+    <div class="flex flex-wrap gap-4">
+      <%= ui("button", label: "Default", variant: :default) %>
+      <%= ui("button", label: "Secondary", variant: :secondary) %>
+      <%= ui("button", label: "Destructive", variant: :destructive) %>
+      <%= ui("button", label: "Outline", variant: :outline) %>
+      <%= ui("button", label: "Ghost", variant: :ghost) %>
+      <%= ui("button", label: "Link", variant: :link) %>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-lg font-semibold mb-4">Sizes</h2>
+    <div class="flex items-center gap-4">
+      <%= ui("button", label: "XSmall", size: :xsmall) %>
+      <%= ui("button", label: "Small", size: :small) %>
+      <%= ui("button", label: "Default") %>
+      <%= ui("button", label: "Large", size: :large) %>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-lg font-semibold mb-4">States</h2>
+    <div class="flex gap-4">
+      <%= ui("button", label: "Disabled", disabled: true) %>
+      <%= ui("button", label: "Full Width", full: true, css: "max-w-xs") %>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-lg font-semibold mb-4">Token Classes</h2>
+    <div class="bg-muted p-4 rounded-lg text-sm font-mono space-y-1">
+      <p><span class="text-muted-foreground"># Colors</span></p>
+      <p>bg-button, bg-button-hover, text-button-foreground</p>
+      <p>bg-button-secondary, bg-button-destructive, bg-button-ghost-hover</p>
+      <p class="pt-2"><span class="text-muted-foreground"># Radius</span></p>
+      <p>rounded-button, rounded-button-sm, rounded-button-lg</p>
+    </div>
+  </section>
+</div>

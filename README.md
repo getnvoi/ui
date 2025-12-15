@@ -1,10 +1,10 @@
-# Aeros - Rails Engine UI Component Library
+# Aeno - Rails Engine UI Component Library
 
 A Rails engine providing reusable UI components with Tailwind CSS styling and Stimulus controllers. Built with ViewComponent and designed for easy integration into Rails engines.
 
 ## Components Library
 
-The Aeros gem provides the following components:
+The Aeno gem provides the following components:
 
 ### Form Components
 - **`Button`** - Styled button with variants (default, white, light, outline) and sizes (xsmall, small, large)
@@ -37,7 +37,7 @@ The Aeros gem provides the following components:
 Add this line to your engine's Gemfile:
 
 ```ruby
-gem "aeros", path: "../ui"  # or from a gem server
+gem "aeno", path: "../ui"  # or from a gem server
 ```
 
 And then execute:
@@ -47,14 +47,14 @@ $ bundle
 
 ## Integration with Rails Engines
 
-The Aeros gem provides convenience helpers to quickly integrate it into your Rails engine.
+The Aeno gem provides convenience helpers to quickly integrate it into your Rails engine.
 
 ### 1. Engine Setup
 
 In your `lib/your_engine/engine.rb`:
 
 ```ruby
-require "aeros"
+require "aeno"
 
 module YourEngine
   class << self
@@ -64,16 +64,16 @@ module YourEngine
   class Engine < ::Rails::Engine
     isolate_namespace YourEngine
 
-    # Setup assets and importmap with Aeros gem integration
-    Aeros::EngineHelpers.setup_assets(self, namespace: YourEngine)
-    Aeros::EngineHelpers.setup_importmap(self, namespace: YourEngine)
+    # Setup assets and importmap with Aeno gem integration
+    Aeno::EngineHelpers.setup_assets(self, namespace: YourEngine)
+    Aeno::EngineHelpers.setup_importmap(self, namespace: YourEngine)
   end
 end
 ```
 
 **What this does:**
-- Configures asset paths for your engine and the Aeros gem
-- Sets up importmap that automatically includes Aeros gem's JavaScript and components
+- Configures asset paths for your engine and the Aeno gem
+- Sets up importmap that automatically includes Aeno gem's JavaScript and components
 - Configures cache sweepers for development hot-reloading
 
 ### 2. ApplicationViewComponent
@@ -82,7 +82,7 @@ Create `app/components/your_engine/application_view_component.rb`:
 
 ```ruby
 module YourEngine
-  class ApplicationViewComponent < Aeros::ApplicationViewComponent
+  class ApplicationViewComponent < Aeno::ApplicationViewComponent
     def controller_name
       # Override to use your engine's namespace for Stimulus controllers
       name = self.class.name
@@ -97,7 +97,7 @@ end
 ```
 
 **What this provides:**
-- All Aeros gem helper methods (stimulus_controller, stimulus_target, etc.)
+- All Aeno gem helper methods (stimulus_controller, stimulus_target, etc.)
 - TailwindMerge integration for CSS class merging
 - Style variants support via ViewComponentContrib
 - Dry::Initializer for clean option definitions
@@ -108,20 +108,20 @@ In `app/javascript/your_engine/controllers/index.js`:
 
 ```javascript
 import { application } from "your_engine/controllers/application";
-import { eagerLoadEngineControllersFrom } from "aeros/controllers/loader";
+import { eagerLoadEngineControllersFrom } from "aeno/controllers/loader";
 
 // Load your engine's controllers
 eagerLoadEngineControllersFrom("your_engine/controllers", application);
 eagerLoadEngineControllersFrom("your_engine/components", application);
 
-// Load Aeros gem component controllers
-eagerLoadEngineControllersFrom("aeros/components", application);
+// Load Aeno gem component controllers
+eagerLoadEngineControllersFrom("aeno/components", application);
 ```
 
 **What this does:**
-- Uses the shared controller loader from Aeros gem
+- Uses the shared controller loader from Aeno gem
 - Automatically registers Stimulus controllers with correct naming conventions
-- Supports multiple namespaces (your engine + Aeros gem)
+- Supports multiple namespaces (your engine + Aeno gem)
 
 ### 4. Layout Integration
 
@@ -134,15 +134,15 @@ In `app/views/layouts/your_engine/application.html.erb`:
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <!-- Include Aeros gem stylesheets -->
-    <%= stylesheet_link_tag "aeros/application", media: "all" %>
-    <%= stylesheet_link_tag "aeros/tailwind", media: "all" %>
+    <!-- Include Aeno gem stylesheets -->
+    <%= stylesheet_link_tag "aeno/application", media: "all" %>
+    <%= stylesheet_link_tag "aeno/tailwind", media: "all" %>
 
     <!-- Your engine's stylesheets -->
     <%= stylesheet_link_tag "your_engine/application", media: "all" %>
     <%= stylesheet_link_tag "your_engine/tailwind", media: "all" %>
 
-    <!-- Importmap with Aeros gem integration -->
+    <!-- Importmap with Aeno gem integration -->
     <%= javascript_importmap_tags "your_engine/application", importmap: YourEngine.importmap %>
   </head>
   <body>
@@ -173,19 +173,19 @@ pin_all_from(
 )
 ```
 
-**Note:** Aeros gem's importmap is automatically included via `Aeros::EngineHelpers.setup_importmap`
+**Note:** Aeno gem's importmap is automatically included via `Aeno::EngineHelpers.setup_importmap`
 
 ## Convenience Utilities
 
 ### Ruby Helpers
 
-#### `Aeros::EngineHelpers.setup_assets(engine_class, namespace:)`
+#### `Aeno::EngineHelpers.setup_assets(engine_class, namespace:)`
 Sets up asset paths for your engine with Propshaft/Sprockets support.
 
-#### `Aeros::EngineHelpers.setup_importmap(engine_class, namespace:)`
+#### `Aeno::EngineHelpers.setup_importmap(engine_class, namespace:)`
 Configures importmap with:
 - Your engine's importmap
-- Aeros gem's importmap (automatic)
+- Aeno gem's importmap (automatic)
 - Cache sweepers for development
 - Controller action integration
 
@@ -194,7 +194,7 @@ Configures importmap with:
 #### `eagerLoadEngineControllersFrom(under, application)`
 Intelligent Stimulus controller loader for Rails engines that:
 - Parses importmap to find controllers
-- Registers with correct naming conventions (e.g., `aeros--button`, `your-engine--views--index`)
+- Registers with correct naming conventions (e.g., `aeno--button`, `your-engine--views--index`)
 - Handles both `controller.js` and `*_controller.js` naming
 - Supports multiple namespaces
 
@@ -210,7 +210,7 @@ bin/rails server
 ### Watching Tailwind CSS
 
 ```bash
-bundle exec rake app:aeros:tailwind_engine_watch
+bundle exec rake app:aeno:tailwind_engine_watch
 ```
 
 ## Dependencies

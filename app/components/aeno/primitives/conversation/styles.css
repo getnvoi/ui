@@ -1,0 +1,221 @@
+/* Conversation */
+.cp-conversation {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--ui-background);
+}
+
+.cp-conversation__header {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--ui-border);
+  background: var(--ui-background);
+}
+
+.cp-conversation__title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--ui-foreground);
+  margin: 0;
+}
+
+.cp-conversation__messages {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.cp-conversation__empty {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  color: var(--ui-muted-foreground);
+}
+
+.cp-conversation__empty-content {
+  text-align: center;
+}
+
+.cp-conversation__empty-title {
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.cp-conversation__empty-subtitle {
+  font-size: 0.875rem;
+}
+
+.cp-conversation__streaming-hidden {
+  display: none;
+}
+
+/* Conversation Message */
+.cp-conversation-message {
+  padding: 2rem 0;
+}
+
+.cp-conversation-message--user {
+  background: var(--ui-background);
+}
+
+.cp-conversation-message--assistant {
+  background: var(--ui-accent);
+}
+
+.cp-conversation-message--error {
+  background: var(--ui-background);
+}
+
+.cp-conversation-message--system {
+  background: var(--ui-accent);
+}
+
+.cp-conversation-message__container {
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.cp-conversation-message__row {
+  display: flex;
+  gap: 1rem;
+}
+
+.cp-conversation-message__avatar-wrapper {
+  flex-shrink: 0;
+}
+
+.cp-conversation-message__avatar {
+  display: flex;
+  width: 2rem;
+  height: 2rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: white;
+  background: var(--ui-muted-foreground);
+}
+
+.cp-conversation-message__avatar--user {
+  background: var(--ui-primary);
+}
+
+.cp-conversation-message__avatar--assistant {
+  background: #16a34a;
+}
+
+.cp-conversation-message__avatar--error {
+  background: var(--ui-destructive);
+}
+
+.cp-conversation-message__avatar--system {
+  background: var(--ui-muted-foreground);
+}
+
+.cp-conversation-message__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.cp-conversation-message__role {
+  margin-bottom: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--ui-foreground);
+}
+
+.cp-conversation-message__body {
+  white-space: pre-wrap;
+  color: var(--ui-foreground);
+}
+
+.cp-conversation-message__timestamp {
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  color: var(--ui-muted-foreground);
+}
+
+/* Conversation Streaming Indicator */
+.cp-conversation-streaming {
+  padding: 2rem 0;
+  background: var(--ui-accent);
+}
+
+.cp-conversation-streaming__container {
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.cp-conversation-streaming__row {
+  display: flex;
+  gap: 1rem;
+}
+
+.cp-conversation-streaming__avatar-wrapper {
+  flex-shrink: 0;
+}
+
+.cp-conversation-streaming__avatar {
+  display: flex;
+  width: 2rem;
+  height: 2rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: white;
+  background: var(--ui-muted-foreground);
+}
+
+.cp-conversation-streaming__avatar--user {
+  background: var(--ui-primary);
+}
+
+.cp-conversation-streaming__avatar--assistant {
+  background: #16a34a;
+}
+
+.cp-conversation-streaming__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.cp-conversation-streaming__label {
+  margin-bottom: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--ui-foreground);
+}
+
+.cp-conversation-streaming__dots {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.cp-conversation-streaming__dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: var(--ui-muted-foreground);
+  animation: cp-bounce 1s infinite;
+}
+
+@keyframes cp-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-0.25rem);
+  }
+}
+
+/* Conversation User Box */
+.cp-conversation-user-box {
+  /* Container for user input - styled by content */
+}

@@ -1,0 +1,38 @@
+<div class="cp-dropdown"
+     data-controller="aeno--primitives--dropdown"
+     data-aeno--primitives--dropdown-placement-value="<%= placement %>"
+     data-aeno--primitives--dropdown-strategy-value="<%= strategy %>"
+     data-aeno--primitives--dropdown-searchable-value="<%= searchable %>">
+
+  <div class="cp-dropdown__trigger" data-aeno--primitives--dropdown-target="trigger" data-action="click->aeno--primitives--dropdown#toggle">
+    <%= trigger %>
+  </div>
+
+  <div class="cp-dropdown__content"
+       role="menu"
+       aria-orientation="vertical"
+       data-aeno--primitives--dropdown-target="content">
+
+    <% if searchable %>
+      <div class="cp-dropdown__search">
+        <input type="text"
+               class="cp-dropdown__search-input"
+               placeholder="<%= placeholder %>"
+               data-aeno--primitives--dropdown-target="search"
+               data-action="input->aeno--primitives--dropdown#filter" />
+      </div>
+    <% end %>
+
+    <div class="cp-dropdown__items" data-aeno--primitives--dropdown-target="items">
+      <% items.each do |item| %>
+        <%= item %>
+      <% end %>
+
+      <% if searchable %>
+        <div class="cp-dropdown__empty" data-aeno--primitives--dropdown-target="empty">
+          No results found
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

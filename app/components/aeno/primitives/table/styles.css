@@ -1,0 +1,39 @@
+.cp-table {
+  overflow-x: auto;
+
+  & table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  &__head {
+    background-color: var(--ui-area-bg);
+  }
+
+  &__th {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--ui-muted-color);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  &__tr {
+    border-bottom: 1px solid var(--ui-card-border);
+  }
+
+  &__td {
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    color: var(--ui-foreground);
+
+    & code {
+      background: var(--ui-area-bg);
+      padding: 0.125rem 0.375rem;
+      border-radius: 0.25rem;
+      font-size: 0.8125rem;
+    }
+  }
+}

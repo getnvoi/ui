@@ -1,0 +1,33 @@
+<div class="cp-input-slider <%= 'cp-input-slider--disabled' if disabled %>">
+  <% if label || show_value %>
+    <div class="cp-input-slider__header">
+      <% if label %>
+        <label for="<%= input_id %>" class="cp-input-slider__label">
+          <%= label %>
+        </label>
+      <% end %>
+      <% if show_value %>
+        <span class="cp-input-slider__value" data-slider-value><%= value %></span>
+      <% end %>
+    </div>
+  <% end %>
+
+  <input
+    type="range"
+    id="<%= input_id %>"
+    name="<%= name %>"
+    value="<%= value %>"
+    min="<%= min %>"
+    max="<%= max %>"
+    step="<%= step %>"
+    class="cp-input-slider__input"
+    <%= 'disabled' if disabled %>
+    <% data.each do |key, val| %>
+      data-<%= key.to_s.dasherize %>="<%= val %>"
+    <% end %>
+  />
+
+  <% if helper_text %>
+    <p class="cp-input-slider__helper"><%= helper_text %></p>
+  <% end %>
+</div>

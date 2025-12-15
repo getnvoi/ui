@@ -1,0 +1,43 @@
+<div class="cp-drawer" data-controller="<%= controller_name %>" id="<%= id %>">
+  <% if trigger %>
+    <div data-action="click-><%= controller_name %>#open">
+      <%= trigger %>
+    </div>
+  <% end %>
+
+  <% wrapper = -> (&block) { standalone ? capture(&block) : turbo_frame_tag("drawer", &block) } %>
+  <%= wrapper.call do %>
+    <div data-action="<%= data_actions %>">
+      <button
+        type="button"
+        class="cp-drawer__backdrop"
+        data-action="click-><%= controller_name %>#close"
+        data-<%= controller_name %>-target="background"
+      ></button>
+      <div
+        class="cp-drawer__panel"
+        style="width: <%= width %>"
+        data-<%= controller_name %>-target="wrapper"
+      >
+        <div class="cp-drawer__container">
+          <% if header %>
+            <div class="cp-drawer__header">
+              <div class="cp-drawer__header-content"><%= header %></div>
+              <button data-action="click-><%= controller_name %>#close" type="button" class="cp-drawer__close">
+                <%= lucide_icon("x", class: "cp-drawer__close-icon") %>
+              </button>
+            </div>
+          <% end %>
+          <div class="cp-drawer__body">
+            <%= content %>
+          </div>
+          <% if footer %>
+            <div class="cp-drawer__footer">
+              <%= footer %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

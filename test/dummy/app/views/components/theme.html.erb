@@ -1,0 +1,102 @@
+<div data-controller="theme">
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-bold">Theme Configurator</h1>
+    <button data-action="click->theme#reset" class="px-3 py-1.5 text-sm bg-secondary hover:bg-secondary-hover rounded-md">
+      Reset
+    </button>
+  </div>
+
+  <p class="text-muted-foreground mb-8">
+    Tweak colors live. Changes persist in localStorage.
+  </p>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <!-- Controls -->
+    <div class="space-y-6">
+      <section>
+        <h2 class="text-lg font-semibold mb-4">Colors</h2>
+        <div class="space-y-3">
+          <div class="flex items-center gap-3">
+            <input type="color" value="#475569" data-theme-target="colorInput" data-name="--ui-primary" data-default="#475569" data-action="input->theme#setColor" class="w-10 h-10 rounded cursor-pointer border-0">
+            <span class="text-sm">Primary</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <input type="color" value="#334155" data-theme-target="colorInput" data-name="--ui-primary-hover" data-default="#334155" data-action="input->theme#setColor" class="w-10 h-10 rounded cursor-pointer border-0">
+            <span class="text-sm">Primary Hover</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <input type="color" value="#dc2626" data-theme-target="colorInput" data-name="--ui-destructive" data-default="#dc2626" data-action="input->theme#setColor" class="w-10 h-10 rounded cursor-pointer border-0">
+            <span class="text-sm">Destructive</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <input type="color" value="#f5f5f4" data-theme-target="colorInput" data-name="--ui-secondary" data-default="#f5f5f4" data-action="input->theme#setColor" class="w-10 h-10 rounded cursor-pointer border-0">
+            <span class="text-sm">Secondary</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <input type="color" value="#f5f5f4" data-theme-target="colorInput" data-name="--ui-accent" data-default="#f5f5f4" data-action="input->theme#setColor" class="w-10 h-10 rounded cursor-pointer border-0">
+            <span class="text-sm">Accent</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <input type="color" value="#e5e5e5" data-theme-target="colorInput" data-name="--ui-border" data-default="#e5e5e5" data-action="input->theme#setColor" class="w-10 h-10 rounded cursor-pointer border-0">
+            <span class="text-sm">Border</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <input type="color" value="#475569" data-theme-target="colorInput" data-name="--ui-ring" data-default="#475569" data-action="input->theme#setColor" class="w-10 h-10 rounded cursor-pointer border-0">
+            <span class="text-sm">Ring (focus)</span>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-semibold mb-4">Radius</h2>
+        <div class="space-y-3">
+          <% [
+            ["sm", "0.125rem", "0.25rem", "0.375rem", "0.5rem"],
+            ["md", "0.25rem", "0.375rem", "0.5rem", "0.75rem"],
+            ["lg", "0.375rem", "0.5rem", "0.75rem", "1rem"]
+          ].each do |name, *values| %>
+            <div>
+              <label class="text-sm text-muted-foreground mb-1 block">radius-<%= name %></label>
+              <div class="flex gap-2">
+                <% values.each do |val| %>
+                  <button data-action="click->theme#update"
+                          data-name="--ui-radius-<%= name %>"
+                          data-value="<%= val %>"
+                          class="px-3 py-1 text-xs bg-secondary hover:bg-secondary-hover rounded-md">
+                    <%= val %>
+                  </button>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </section>
+    </div>
+
+    <!-- Preview & Output -->
+    <div class="space-y-6">
+      <section>
+        <h2 class="text-lg font-semibold mb-4">Preview</h2>
+        <div class="p-6 bg-card border border-border rounded-lg space-y-4">
+          <div class="flex flex-wrap gap-2">
+            <%= ui("button", label: "Primary", variant: :default) %>
+            <%= ui("button", label: "Secondary", variant: :secondary) %>
+            <%= ui("button", label: "Destructive", variant: :destructive) %>
+            <%= ui("button", label: "Outline", variant: :outline) %>
+            <%= ui("button", label: "Ghost", variant: :ghost) %>
+          </div>
+          <div class="flex gap-2">
+            <%= ui("button", label: "Small", size: :small) %>
+            <%= ui("button", label: "Default") %>
+            <%= ui("button", label: "Large", size: :large) %>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-semibold mb-4">Generated CSS</h2>
+        <pre data-theme-target="output" class="bg-muted p-4 rounded-lg text-sm overflow-x-auto min-h-[120px] font-mono">/* Default theme */</pre>
+      </section>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+<div class="cp-conversation-message <%= role_class %>">
+  <div class="cp-conversation-message__container">
+    <div class="cp-conversation-message__row">
+      <div class="cp-conversation-message__avatar-wrapper">
+        <div class="cp-conversation-message__avatar <%= avatar_class %>">
+          <%= avatar_label %>
+        </div>
+      </div>
+      <div class="cp-conversation-message__content">
+        <div class="cp-conversation-message__role">
+          <%= role_label %>
+        </div>
+        <div class="cp-conversation-message__body">
+          <%= content %>
+        </div>
+        <% if timestamp %>
+          <div class="cp-conversation-message__timestamp">
+            <%= timestamp %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

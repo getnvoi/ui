@@ -1,0 +1,51 @@
+<div class="cp-input-text-area-ai">
+  <%= render Aeno::Primitives::InputWrapper::Component.new(
+      label: label,
+      helper_text: helper_text,
+      error_text: error_text,
+      name: name,
+      id: id,
+      disabled: disabled,
+      required: required) do %>
+    <div class="cp-input-text-area-ai__container"
+         data-controller="<%= controller_name %>"
+         <%= stimulus_values.map { |k, v| "data-#{k.dasherize}=\"#{ERB::Util.html_escape(v)}\"" }.join(" ").html_safe %>>
+
+      <textarea
+        id="<%= id %>"
+        name="<%= name %>"
+        placeholder="<%= placeholder %>"
+        rows="<%= rows %>"
+        class="cp-input-text-area-ai__textarea"
+        data-<%= controller_name %>-target="textarea"
+        <%= 'disabled' if disabled %>
+        <%= 'required' if required %>
+        <% data.each do |key, val| %>
+          data-<%= key.to_s.dasherize %>="<%= val %>"
+        <% end %>
+      ><%= value %></textarea>
+
+      <div class="cp-input-text-area-ai__actions">
+        <button type="button"
+                class="cp-input-text-area-ai__ai-btn"
+                data-<%= controller_name %>-target="aiButton"
+                data-action="click-><%= controller_name %>#generateAi"
+                <%= 'disabled' if disabled %>>
+          <span data-<%= controller_name %>-target="buttonIcon">
+            <%= lucide_icon("sparkles", class: "cp-input-text-area-ai__ai-icon") %>
+          </span>
+          <span data-<%= controller_name %>-target="buttonSpinner" class="cp-input-text-area-ai__spinner--hidden">
+            <%= ui("spinner", size: :xs) %>
+          </span>
+          <span data-<%= controller_name %>-target="buttonLabel"><%= ai_button_label %></span>
+        </button>
+      </div>
+
+      <div class="cp-input-text-area-ai__streaming cp-input-text-area-ai__streaming--hidden"
+           data-<%= controller_name %>-target="streamingIndicator">
+        <%= ui("spinner", size: :xs) %>
+        <span>Generating...</span>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,33 @@
+<div class="max-w-4xl">
+  <!-- Header -->
+  <h1 class="text-3xl font-bold mb-2"><%= local_assigns[:title] %></h1>
+  <p class="text-muted-foreground mb-4"><%= local_assigns[:description] %></p>
+  <div class="flex gap-2 mb-8">
+    <a href="#" class="text-sm px-3 py-1 border rounded-md hover:bg-muted">Docs &#8599;</a>
+    <a href="#" class="text-sm px-3 py-1 border rounded-md hover:bg-muted">API Reference &#8599;</a>
+  </div>
+
+  <!-- Preview Card -->
+  <div class="border rounded-lg mb-6">
+    <div class="p-8 flex items-center justify-center bg-muted/30 min-h-[200px]">
+      <%= local_assigns[:preview] %>
+    </div>
+  </div>
+
+  <!-- Code Example (ERB, copy-paste ready) -->
+  <div class="border rounded-lg mb-8 bg-slate-950 text-slate-50 p-4 font-mono text-sm overflow-x-auto">
+    <pre><%= local_assigns[:code] %></pre>
+  </div>
+
+  <!-- Installation (upcoming - placeholder) -->
+  <section class="mb-8">
+    <h2 class="text-xl font-semibold mb-4">Installation</h2>
+    <p class="text-muted-foreground text-sm">Coming soon...</p>
+  </section>
+
+  <!-- Usage (basic patterns) -->
+  <section>
+    <h2 class="text-xl font-semibold mb-4">Usage</h2>
+    <%= local_assigns[:usage] %>
+  </section>
+</div>

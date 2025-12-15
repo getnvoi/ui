@@ -1,0 +1,20 @@
+<div class="cp-input-wrapper <%= 'cp-input-wrapper--disabled' if disabled %>">
+  <% if label %>
+    <label for="<%= id || name %>" class="cp-input-wrapper__label">
+      <%= label %>
+      <% if required %>
+        <span class="cp-input-wrapper__required">*</span>
+      <% end %>
+    </label>
+  <% end %>
+
+  <div class="cp-input-wrapper__field">
+    <%= content %>
+  </div>
+
+  <% if error_text %>
+    <p class="cp-input-wrapper__error"><%= error_text %></p>
+  <% elsif helper_text %>
+    <p class="cp-input-wrapper__helper"><%= helper_text %></p>
+  <% end %>
+</div>

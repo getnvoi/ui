@@ -1,0 +1,15 @@
+/* Layer order - lowest to highest priority */
+@layer aeno-reset, aeno-base, aeno-theme, aeno-components, aeno-config;
+
+/* Reset (lowest layer) */
+@import "./reset.css" layer(aeno-reset);
+
+/* Base defaults */
+@import "./base.css" layer(aeno-base);
+@import "./utilities.css" layer(aeno-base);
+
+/* Theme presets */
+@import "./theme.css" layer(aeno-theme);
+
+/* Component styles */
+@import-glob "../../../components/**/*.css" layer(aeno-components);

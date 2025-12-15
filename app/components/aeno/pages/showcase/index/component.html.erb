@@ -1,0 +1,53 @@
+<div class="cg-showcase">
+  <h1>Button</h1>
+
+  <%= block("component_preview", title: "Preview") do %>
+    <%= ui("button", label: "Click me", variant: :default) %>
+  <% end %>
+
+  <%= block("component_preview", title: "Variants") do %>
+    <%= ui("button", label: "Default", variant: :default) %>
+    <%= ui("button", label: "Secondary", variant: :secondary) %>
+    <%= ui("button", label: "Destructive", variant: :destructive) %>
+    <%= ui("button", label: "Outline", variant: :outline) %>
+    <%= ui("button", label: "Ghost", variant: :ghost) %>
+    <%= ui("button", label: "Link", variant: :link) %>
+  <% end %>
+
+  <%= block("component_preview", title: "Sizes") do %>
+    <%= ui("button", label: "XSmall", size: :xsmall) %>
+    <%= ui("button", label: "Small", size: :small) %>
+    <%= ui("button", label: "Default") %>
+    <%= ui("button", label: "Large", size: :large) %>
+  <% end %>
+
+  <%= block("component_preview", title: "With Icons") do %>
+    <%= ui("button", label: "Settings", icon: "settings") %>
+    <%= ui("button", label: "Download", icon: "download", variant: :secondary) %>
+    <%= ui("button", label: "Delete", icon: "trash-2", variant: :destructive) %>
+  <% end %>
+
+  <%= ui("card") do %>
+    <h2>Props</h2>
+    <%= ui("card") do %>
+      <%= ui("table") do |t| %>
+        <% t.with_header do |h| %>
+          <% h.with_column do %>Name<% end %>
+          <% h.with_column do %>Description<% end %>
+          <% h.with_column do %>Values<% end %>
+        <% end %>
+        <% component_class(:button).props.each do |name, meta| %>
+          <% t.with_row do |r| %>
+            <% r.with_cell do %><code><%= name %></code><% end %>
+            <% r.with_cell do %><%= meta[:description] %><% end %>
+            <% r.with_cell do %>
+              <% if meta[:values] %>
+                <% meta[:values].each do |v| %><code><%= v %></code> <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

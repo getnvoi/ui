@@ -1,0 +1,79 @@
+<h1 class="text-2xl font-bold mb-2">Card</h1>
+<p class="text-muted-foreground mb-8">Cornerstone component for contained, elevated content blocks.</p>
+
+<div class="space-y-8">
+  <section>
+    <h2 class="text-lg font-semibold mb-4">Default</h2>
+    <div class="max-w-sm">
+      <%= ui("card") do %>
+        <h3 class="font-semibold mb-2">Card Title</h3>
+        <p class="text-muted-foreground text-sm">This is a default card with padding, border, and shadow.</p>
+      <% end %>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-lg font-semibold mb-4">Variants</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <%= ui("card", variant: :default) do %>
+        <h3 class="font-semibold mb-2">Default</h3>
+        <p class="text-muted-foreground text-sm">Standard card with border and subtle shadow.</p>
+      <% end %>
+
+      <%= ui("card", variant: :elevated) do %>
+        <h3 class="font-semibold mb-2">Elevated</h3>
+        <p class="text-muted-foreground text-sm">More prominent shadow for emphasis.</p>
+      <% end %>
+
+      <%= ui("card", variant: :ghost) do %>
+        <h3 class="font-semibold mb-2">Ghost</h3>
+        <p class="text-muted-foreground text-sm">No border or shadow, transparent background.</p>
+      <% end %>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-lg font-semibold mb-4">Without Padding</h2>
+    <div class="max-w-sm">
+      <%= ui("card", padding: false) do %>
+        <div class="h-32 bg-muted rounded-t-card"></div>
+        <div class="p-4">
+          <h3 class="font-semibold mb-2">Image Card</h3>
+          <p class="text-muted-foreground text-sm">Card with custom padding for images.</p>
+        </div>
+      <% end %>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-lg font-semibold mb-4">Complex Example</h2>
+    <div class="max-w-sm">
+      <%= ui("card") do %>
+        <div class="flex items-center gap-4 mb-4">
+          <div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold">JD</div>
+          <div>
+            <h3 class="font-semibold">John Doe</h3>
+            <p class="text-muted-foreground text-sm">Software Engineer</p>
+          </div>
+        </div>
+        <p class="text-sm mb-4">Building great products with Ruby and Rails. Open source enthusiast.</p>
+        <div class="flex gap-2">
+          <%= ui("button", label: "Follow", size: :small) %>
+          <%= ui("button", label: "Message", variant: :outline, size: :small) %>
+        </div>
+      <% end %>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-lg font-semibold mb-4">Token Classes</h2>
+    <div class="bg-muted p-4 rounded-lg text-sm font-mono space-y-1">
+      <p><span class="text-muted-foreground"># Colors</span></p>
+      <p>bg-card-bg, border-card-border, text-card-text</p>
+      <p class="pt-2"><span class="text-muted-foreground"># Radius & Shadow</span></p>
+      <p>rounded-card, shadow-card</p>
+      <p class="pt-2"><span class="text-muted-foreground"># Spacing</span></p>
+      <p>p-card (via --spacing-card)</p>
+    </div>
+  </section>
+</div>

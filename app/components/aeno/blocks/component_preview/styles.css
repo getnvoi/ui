@@ -1,0 +1,10 @@
+.cb-component-preview {
+  &__title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--ui-muted-color);
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+}

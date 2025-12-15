@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Aeno Components</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag "tailwind" %>
+  <script>
+    const THEME_KEY = "aeno-theme"
+    const saved = localStorage.getItem(THEME_KEY)
+    if (saved) {
+      Object.entries(JSON.parse(saved)).forEach(([name, value]) => {
+        document.documentElement.style.setProperty(name, value)
+      })
+    }
+  </script>
+  <script type="module">
+    import { Application, Controller } from "https://unpkg.com/@hotwired/stimulus/dist/stimulus.js"
+    window.Stimulus = Application.start()
+
+    const THEME_KEY = "aeno-theme"
+    const CONFIG = <%== Aeno::Theme.to_js_config %>
+
+    // Collect all CSS variable names from config
+    const VARS = []
+    Object.values(CONFIG).forEach(cornerstone => {
+      Object.values(cornerstone.properties).forEach(prop => {
+        VARS.push(prop.var)
+      })
+    })
+
+    Stimulus.register("aeno--blocks--floating-info-area", class extends Controller {
+      static targets = ["panel", "button", "iconOpen", "iconClose"]
+      connect() { this.isOpen = false }
+      toggle() { this.isOpen ? this.close() : this.open() }
+      open() {
+        this.isOpen = true
+        this.panelTarget.classList.remove("scale-0", "opacity-0")
+        this.panelTarget.classList.add("scale-100", "opacity-100")
+        if (this.hasIconOpenTarget && this.hasIconCloseTarget) {
+          this.iconOpenTarget.classList.add("hidden")
+          this.iconCloseTarget.classList.remove("hidden")
+        }
+        if (this.hasButtonTarget) this.buttonTarget.classList.add("rotate-90")
+      }
+      close() {
+        this.isOpen = false
+        this.panelTarget.classList.add("scale-0", "opacity-0")
+        this.panelTarget.classList.remove("scale-100", "opacity-100")
+        if (this.hasIconOpenTarget && this.hasIconCloseTarget) {
+          this.iconOpenTarget.classList.remove("hidden")
+          this.iconCloseTarget.classList.add("hidden")
+        }
+        if (this.hasButtonTarget) this.buttonTarget.classList.remove("rotate-90")
+      }
+    })
+
+    Stimulus.register("theme", class extends Controller {
+      static targets = ["container"]
+
+      connect() {
+        this.renderConfigurator()
+        this.restoreInputs()
+      }
+
+      renderConfigurator() {
+        const container = this.containerTarget
+        container.innerHTML = ""
+
+        Object.entries(CONFIG).forEach(([key, cornerstone]) => {
+          const section = document.createElement("details")
+          section.className = "group"
+          if (key === "button") section.open = true
+
+          section.innerHTML = `
+            <summary class="font-semibold cursor-pointer text-foreground mb-2 flex items-center gap-1">
+              <span class="text-[10px] text-muted-foreground group-open:rotate-90 transition-transform">▶</span>
+              ${cornerstone.label}
+            </summary>
+            <div class="space-y-2 pl-3 pb-3"></div>
+          `
+
+          const propsContainer = section.querySelector("div")
+
+          Object.entries(cornerstone.properties).forEach(([propKey, prop]) => {
+            const widget = this.createWidget(propKey, prop)
+            if (widget) propsContainer.appendChild(widget)
+          })
+
+          container.appendChild(section)
+        })
+      }
+
+      createWidget(propKey, prop) {
+        const wrapper = document.createElement("div")
+        const label = propKey.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase())
+
+        if (prop.widget === "color_picker") {
+          wrapper.innerHTML = `
+            <div class="flex items-center justify-between">
+              <span class="text-muted-foreground">${label}</span>
+              <input type="color" value="${prop.resolved_default}"
+                     data-name="${prop.var}"
+                     data-action="input->theme#setColor"
+                     data-theme-target="colorInput"
+                     class="w-6 h-6 rounded cursor-pointer border-0 p-0">
+            </div>
+          `
+        } else if (prop.widget === "slider") {
+          const min = prop.min || 0
+          const max = prop.max || 2
+          const step = prop.step || 0.0625
+          const unit = prop.unit || ""
+          const prefix = prop.prefix || ""
+          const defaultVal = parseFloat(prop.resolved_default) || 0
+
+          wrapper.innerHTML = `
+            <div class="flex justify-between mb-1">
+              <span class="text-muted-foreground">${label}</span>
+              <span data-theme-target="sliderValue" class="font-mono text-[10px]">${prefix}${defaultVal}${unit}</span>
+            </div>
+            <input type="range" min="${min}" max="${max}" step="${step}" value="${defaultVal}"
+                   data-name="${prop.var}" data-suffix="${unit}" data-prefix="${prefix}"
+                   data-action="input->theme#setSlider"
+                   class="w-full h-1.5 rounded-full bg-muted appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-primary">
+          `
+        } else if (prop.widget === "button_group" && prop.options) {
+          const optionsHtml = Object.entries(prop.options).map(([optKey, optVal]) => {
+            const isSelected = prop.resolved_default === optVal || prop.resolved_default === optKey
+            return `<button type="button" data-value="${optVal}" data-name="${prop.var}"
+                            data-action="click->theme#setOption"
+                            class="px-2 py-1 rounded text-[10px] ${isSelected ? 'bg-primary text-primary-foreground' : 'bg-muted hover:bg-accent'}">${optKey}</button>`
+          }).join("")
+
+          wrapper.innerHTML = `
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-muted-foreground">${label}</span>
+            </div>
+            <div class="flex gap-1 flex-wrap" data-button-group="${prop.var}">${optionsHtml}</div>
+          `
+        } else if (prop.widget === "select" && prop.options) {
+          const optionsHtml = Object.entries(prop.options).map(([optKey, optVal]) => {
+            const isSelected = prop.resolved_default === optVal
+            return `<option value="${optVal}" ${isSelected ? 'selected' : ''}>${optKey}</option>`
+          }).join("")
+
+          wrapper.innerHTML = `
+            <div class="flex items-center justify-between">
+              <span class="text-muted-foreground">${label}</span>
+              <select data-name="${prop.var}" data-action="change->theme#setSelect"
+                      class="text-[10px] bg-muted rounded px-2 py-1 border-0">
+                ${optionsHtml}
+              </select>
+            </div>
+          `
+        }
+
+        return wrapper
+      }
+
+      setColor(event) {
+        const { name } = event.target.dataset
+        this.setVar(name, event.target.value)
+      }
+
+      setSlider(event) {
+        const { name, prefix = "", suffix = "" } = event.target.dataset
+        const rawValue = event.target.value
+        const cssValue = suffix ? rawValue + suffix : rawValue
+        this.setVar(name, cssValue)
+        const display = event.target.parentElement.querySelector("[data-theme-target='sliderValue']")
+        if (display) display.textContent = prefix + rawValue + suffix
+      }
+
+      setOption(event) {
+        const { name, value } = event.target.dataset
+        this.setVar(name, value)
+        // Update button states
+        const group = event.target.closest("[data-button-group]")
+        if (group) {
+          group.querySelectorAll("button").forEach(btn => {
+            btn.classList.remove("bg-primary", "text-primary-foreground")
+            btn.classList.add("bg-muted")
+          })
+          event.target.classList.remove("bg-muted")
+          event.target.classList.add("bg-primary", "text-primary-foreground")
+        }
+      }
+
+      setSelect(event) {
+        const { name } = event.target.dataset
+        this.setVar(name, event.target.value)
+      }
+
+      setVar(name, value) {
+        document.documentElement.style.setProperty(name, value)
+        this.save()
+      }
+
+      save() {
+        const theme = {}
+        VARS.forEach(name => {
+          const val = document.documentElement.style.getPropertyValue(name)
+          if (val) theme[name] = val
+        })
+        localStorage.setItem(THEME_KEY, JSON.stringify(theme))
+      }
+
+      restoreInputs() {
+        const saved = localStorage.getItem(THEME_KEY)
+        if (!saved) return
+        const theme = JSON.parse(saved)
+
+        // Restore color inputs
+        this.element.querySelectorAll("input[type='color']").forEach(input => {
+          const name = input.dataset.name
+          if (theme[name]) input.value = theme[name]
+        })
+
+        // Restore sliders
+        this.element.querySelectorAll("input[type='range']").forEach(input => {
+          const name = input.dataset.name
+          if (theme[name]) {
+            const val = theme[name].replace(/[^0-9.-]/g, "")
+            input.value = val
+            const display = input.parentElement.querySelector("[data-theme-target='sliderValue']")
+            const { prefix = "", suffix = "" } = input.dataset
+            if (display) display.textContent = prefix + val + suffix
+          }
+        })
+
+        // Restore selects
+        this.element.querySelectorAll("select").forEach(select => {
+          const name = select.dataset.name
+          if (theme[name]) select.value = theme[name]
+        })
+
+        // Restore button groups
+        this.element.querySelectorAll("[data-button-group]").forEach(group => {
+          const name = group.dataset.buttonGroup
+          if (theme[name]) {
+            group.querySelectorAll("button").forEach(btn => {
+              btn.classList.remove("bg-primary", "text-primary-foreground")
+              btn.classList.add("bg-muted")
+              if (btn.dataset.value === theme[name]) {
+                btn.classList.remove("bg-muted")
+                btn.classList.add("bg-primary", "text-primary-foreground")
+              }
+            })
+          }
+        })
+      }
+
+      reset() {
+        localStorage.removeItem(THEME_KEY)
+        VARS.forEach(name => document.documentElement.style.removeProperty(name))
+        location.reload()
+      }
+    })
+
+    Stimulus.register("aeno--button", class extends Controller {
+      connect() {}
+      loading() { this.element.classList.add("loading") }
+      done() { this.element.classList.remove("loading") }
+    })
+  </script>
+</head>
+<body class="bg-background min-h-screen text-foreground">
+  <div class="flex min-h-screen">
+    <div class="w-64 flex-shrink-0">
+      <%= ui("sidebar", css: "w-64 fixed") do |s| %>
+        <% s.with_header do %>
+          <a href="/" class="text-xl font-bold px-4 py-4 block">Aeno</a>
+        <% end %>
+
+        <% s.with_group(label: "Base") do |g| %>
+          <% @menu[:base].each do |c| %>
+            <% g.with_item(label: c.titleize, href: "/base/#{c}", active: @group == :base && @component == c) %>
+          <% end %>
+        <% end %>
+
+        <% s.with_group(label: "Primitives") do |g| %>
+          <% @menu[:primitives].each do |c| %>
+            <% g.with_item(label: c.titleize, href: "/primitives/#{c}", active: @group == :primitives && @component == c) %>
+          <% end %>
+        <% end %>
+
+        <% s.with_group(label: "Blocks") do |g| %>
+          <% @menu[:blocks].each do |c| %>
+            <% g.with_item(label: c.titleize.gsub("-", " "), href: "/blocks/#{c}", active: @group == :blocks && @component == c) %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+
+    <main class="flex-1 p-12">
+      <%= yield %>
+    </main>
+  </div>
+
+  <%= ui("floating_info_area", icon: "palette", width: "w-96") do |panel| %>
+    <% panel.with_header do %>Theme Configurator<% end %>
+    <div class="p-4 space-y-3 text-xs max-h-[70vh] overflow-y-auto" data-controller="theme">
+      <div data-theme-target="container"></div>
+      <div class="pt-2 border-t border-card-border">
+        <button data-action="click->theme#reset" class="w-full px-3 py-1.5 text-xs bg-muted hover:bg-accent rounded-md transition-colors">
+          Reset to Default
+        </button>
+      </div>
+    </div>
+  <% end %>
+</body>
+</html>

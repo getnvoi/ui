@@ -1,0 +1,2 @@
+web: test/dummy/bin/rails s -p3000
+css: yarn chokidar "app/components/**/*.css" "app/assets/stylesheets/aeno/source.css" "app/assets/stylesheets/aeno/theme.css" -c "yarn build:css" --initial

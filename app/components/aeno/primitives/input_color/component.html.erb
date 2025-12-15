@@ -1,0 +1,24 @@
+<div class="cp-input-color <%= 'cp-input-color--disabled' if disabled %>">
+  <div class="cp-input-color__container">
+    <input
+      type="color"
+      id="<%= input_id %>"
+      name="<%= name %>"
+      value="<%= value %>"
+      class="cp-input-color__input <%= size_class %>"
+      <%= 'disabled' if disabled %>
+      <% data.each do |key, val| %>
+        data-<%= key.to_s.dasherize %>="<%= val %>"
+      <% end %>
+    />
+    <% if label %>
+      <label for="<%= input_id %>" class="cp-input-color__label">
+        <%= label %>
+      </label>
+    <% end %>
+  </div>
+
+  <% if helper_text %>
+    <p class="cp-input-color__helper"><%= helper_text %></p>
+  <% end %>
+</div>

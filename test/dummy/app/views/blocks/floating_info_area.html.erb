@@ -1,0 +1,54 @@
+<% preview_content = capture do %>
+  <div class="relative h-64 w-full flex items-center justify-center">
+    <p class="text-muted-foreground text-sm">Click the button in the bottom-right corner of the page to see the Theme Configurator panel.</p>
+  </div>
+<% end %>
+
+<% code_content = capture do %><%= ui("floating_info_area", icon: "palette", width: "w-96") do |panel| %>
+  <% panel.with_header do %>Panel Title<% end %>
+  <div class="p-4">
+    Panel content goes here...
+  </div>
+<% end %><% end %>
+
+<% usage_content = capture do %>
+  <div class="space-y-6">
+    <div>
+      <h3 class="font-semibold mb-2">Options</h3>
+      <div class="bg-muted p-4 rounded space-y-2 text-sm">
+        <p><code class="bg-background px-1 rounded">icon:</code> Lucide icon name (default: "settings")</p>
+        <p><code class="bg-background px-1 rounded">position:</code> :bottom_right (default)</p>
+        <p><code class="bg-background px-1 rounded">width:</code> Tailwind width class (default: "w-80")</p>
+      </div>
+    </div>
+
+    <div>
+      <h3 class="font-semibold mb-2">Slots</h3>
+      <div class="bg-muted p-4 rounded space-y-2 text-sm">
+        <p><code class="bg-background px-1 rounded">with_header</code> - Panel header content</p>
+        <p><code class="bg-background px-1 rounded">with_trigger</code> - Custom trigger button (optional)</p>
+        <p>Block content becomes the panel body</p>
+      </div>
+    </div>
+
+    <div>
+      <h3 class="font-semibold mb-2">Example: Theme Configurator</h3>
+      <p class="text-muted-foreground text-sm mb-2">The theme configurator on this page uses FloatingInfoArea:</p>
+      <div class="bg-slate-950 text-slate-50 p-4 rounded font-mono text-xs overflow-x-auto">
+        <pre>&lt;%= ui("floating_info_area", icon: "palette", width: "w-96") do |panel| %&gt;
+  &lt;% panel.with_header do %&gt;Theme Configurator&lt;% end %&gt;
+  &lt;div class="p-4" data-controller="theme"&gt;
+    ...theme controls...
+  &lt;/div&gt;
+&lt;% end %&gt;</pre>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<%= render "shared/component_page",
+  title: "Floating Info Area",
+  description: "A floating panel that expands from a button, useful for settings, help, or contextual information.",
+  preview: preview_content,
+  code: code_content,
+  usage: usage_content %>

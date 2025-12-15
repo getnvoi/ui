@@ -1,0 +1,163 @@
+/* =============================================================================
+   Theme: Slate
+   ============================================================================= */
+
+[data-theme="slate"] {
+  /* Background & Foreground */
+  --ui-background: #ffffff;
+  --ui-foreground: #0f172a;
+
+  /* Generic */
+  --ui-border: #e2e8f0;
+  --ui-destructive: #dc2626;
+  --ui-primary: #0f172a;
+  --ui-accent: #f1f5f9;
+  --ui-accent-foreground: #0f172a;
+  --ui-popover: #ffffff;
+  --ui-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  --ui-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+
+  /* Muted */
+  --ui-muted: #f1f5f9;
+  --ui-muted-foreground: #64748b;
+
+  /* Card */
+  --ui-card-bg: #ffffff;
+  --ui-card-fg: #0f172a;
+  --ui-card-border: #e2e8f0;
+  --ui-card-radius: 0.75rem;
+  --ui-card-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+
+  /* Area */
+  --ui-area-bg: #f8fafc;
+  --ui-area-fg: #0f172a;
+  --ui-area-border: #e2e8f0;
+
+  /* Sidebar */
+  --ui-sidebar-bg: #f8fafc;
+  --ui-sidebar-fg: #0f172a;
+  --ui-sidebar-border: #e2e8f0;
+  --ui-sidebar-hover: #f1f5f9;
+  --ui-sidebar-active: #e2e8f0;
+
+  /* Button */
+  --ui-button-bg: #0f172a;
+  --ui-button-bg-hover: #1e293b;
+  --ui-button-fg: #ffffff;
+  --ui-button-border: #0f172a;
+  --ui-button-secondary-bg: #f1f5f9;
+  --ui-button-secondary-bg-hover: #e2e8f0;
+  --ui-button-secondary-fg: #0f172a;
+  --ui-button-destructive-bg: #dc2626;
+  --ui-button-destructive-bg-hover: #b91c1c;
+  --ui-button-destructive-fg: #ffffff;
+  --ui-button-ghost-bg-hover: #f1f5f9;
+  --ui-button-ghost-fg: #0f172a;
+  --ui-button-outline-bg-hover: #f1f5f9;
+  --ui-button-outline-fg: #0f172a;
+
+  /* Input */
+  --ui-input-bg: #ffffff;
+  --ui-input-fg: #0f172a;
+  --ui-input-border: #e2e8f0;
+  --ui-input-border-focus: #94a3b8;
+  --ui-input-ring: #3b82f6;
+  --ui-input-placeholder: #94a3b8;
+
+  /* Typography */
+  --ui-heading-color: #0f172a;
+  --ui-body-color: #334155;
+  --ui-muted-color: #64748b;
+  --ui-link-color: #2563eb;
+  --ui-link-hover: #1d4ed8;
+  --ui-ring: #3b82f6;
+
+  /* Menu */
+  --ui-menu-bg: #ffffff;
+  --ui-menu-fg: #0f172a;
+  --ui-menu-border: #e2e8f0;
+  --ui-menu-radius: 0.375rem;
+  --ui-menu-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  --ui-menu-padding: 0.25rem;
+  --ui-menu-item-radius: 0.25rem;
+}
+
+/* Dark mode */
+[data-theme="slate"][data-mode="dark"] {
+  /* Background & Foreground */
+  --ui-background: #0f172a;
+  --ui-foreground: #f8fafc;
+
+  /* Generic */
+  --ui-border: #334155;
+  --ui-destructive: #dc2626;
+  --ui-primary: #f8fafc;
+  --ui-accent: #1e293b;
+  --ui-accent-foreground: #f8fafc;
+  --ui-popover: #1e293b;
+  --ui-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.3);
+  --ui-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.3);
+
+  /* Muted */
+  --ui-muted: #1e293b;
+  --ui-muted-foreground: #94a3b8;
+
+  /* Card */
+  --ui-card-bg: #1e293b;
+  --ui-card-fg: #f8fafc;
+  --ui-card-border: #334155;
+  --ui-card-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+
+  /* Area */
+  --ui-area-bg: #1e293b;
+  --ui-area-fg: #f8fafc;
+  --ui-area-border: #334155;
+
+  /* Sidebar */
+  --ui-sidebar-bg: #1e293b;
+  --ui-sidebar-fg: #f8fafc;
+  --ui-sidebar-border: #334155;
+  --ui-sidebar-hover: #334155;
+  --ui-sidebar-active: #475569;
+
+  /* Button */
+  --ui-button-bg: #f8fafc;
+  --ui-button-bg-hover: #e2e8f0;
+  --ui-button-fg: #0f172a;
+  --ui-button-border: #f8fafc;
+  --ui-button-secondary-bg: #334155;
+  --ui-button-secondary-bg-hover: #475569;
+  --ui-button-secondary-fg: #f8fafc;
+  --ui-button-destructive-bg: #dc2626;
+  --ui-button-destructive-bg-hover: #ef4444;
+  --ui-button-destructive-fg: #ffffff;
+  --ui-button-ghost-bg-hover: #334155;
+  --ui-button-ghost-fg: #f8fafc;
+  --ui-button-outline-bg-hover: #334155;
+  --ui-button-outline-fg: #f8fafc;
+
+  /* Input */
+  --ui-input-bg: #1e293b;
+  --ui-input-fg: #f8fafc;
+  --ui-input-border: #334155;
+  --ui-input-border-focus: #64748b;
+  --ui-input-ring: #3b82f6;
+  --ui-input-placeholder: #64748b;
+
+  /* Typography */
+  --ui-heading-color: #f8fafc;
+  --ui-body-color: #cbd5e1;
+  --ui-muted-color: #94a3b8;
+  --ui-link-color: #60a5fa;
+  --ui-link-hover: #93c5fd;
+  --ui-ring: #3b82f6;
+
+  /* Menu */
+  --ui-menu-bg: #1e293b;
+  --ui-menu-fg: #f8fafc;
+  --ui-menu-border: #334155;
+  --ui-menu-radius: 0.375rem;
+  --ui-menu-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.3);
+  --ui-menu-padding: 0.25rem;
+  --ui-menu-item-radius: 0.25rem;
+}

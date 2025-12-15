@@ -1,0 +1,23 @@
+/* Padding */
+.pad-1 { padding: var(--ui-spacing); }
+.pad-2 { padding: calc(var(--ui-spacing) * 2); }
+.pad-3 { padding: calc(var(--ui-spacing) * 3); }
+.pad-4 { padding: calc(var(--ui-spacing) * 4); }
+
+/* Text size */
+.text-xs { font-size: 0.75rem; }
+.text-sm { font-size: 0.875rem; }
+.text-base { font-size: 1rem; }
+.text-lg { font-size: 1.125rem; }
+.text-xl { font-size: 1.25rem; }
+
+/* Text color */
+.text-muted { color: var(--ui-muted-color); }
+
+/* Fixed positioning */
+.cg-theme-toggle {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 50;
+}

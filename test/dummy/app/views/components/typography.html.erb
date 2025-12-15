@@ -1,0 +1,69 @@
+<h1 class="text-2xl font-bold mb-2">Typography</h1>
+<p class="text-muted-foreground mb-8">Cornerstone for text: headings, body, code, and links.</p>
+
+<div class="space-y-8">
+  <section>
+    <h2 class="text-lg font-semibold mb-4">Headings</h2>
+    <div class="space-y-4">
+      <h1 class="text-3xl font-semibold text-heading tracking-tight">Heading 1 (text-3xl)</h1>
+      <h2 class="text-2xl font-semibold text-heading tracking-tight">Heading 2 (text-2xl)</h2>
+      <h3 class="text-xl font-semibold text-heading">Heading 3 (text-xl)</h3>
+      <h4 class="text-lg font-semibold text-heading">Heading 4 (text-lg)</h4>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-lg font-semibold mb-4">Body Text</h2>
+    <div class="space-y-4 max-w-prose">
+      <p class="text-body">This is regular body text using the body color token. It should be highly readable and work well for long-form content.</p>
+      <p class="text-muted-foreground">This is muted text, used for secondary information, helper text, and less important content.</p>
+      <p class="text-sm text-muted-foreground">Smaller muted text for captions and fine print.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-lg font-semibold mb-4">Links</h2>
+    <div class="space-y-2">
+      <p><a href="#" class="text-link hover:text-link-hover underline underline-offset-4">Standard link with underline</a></p>
+      <p><a href="#" class="text-link hover:text-link-hover hover:underline underline-offset-4">Link with hover underline</a></p>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-lg font-semibold mb-4">Code</h2>
+    <div class="space-y-4">
+      <p>Inline <code class="bg-code-bg text-code px-1.5 py-0.5 rounded text-sm font-mono">code snippet</code> within text.</p>
+      <pre class="bg-code-bg text-code p-4 rounded-lg text-sm font-mono overflow-x-auto">
+def hello_world
+  puts "Hello, World!"
+end</pre>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-lg font-semibold mb-4">Font Sizes</h2>
+    <div class="space-y-2">
+      <p class="text-xs">text-xs (0.75rem)</p>
+      <p class="text-sm">text-sm (0.875rem)</p>
+      <p class="text-base">text-base (1rem)</p>
+      <p class="text-lg">text-lg (1.125rem)</p>
+      <p class="text-xl">text-xl (1.25rem)</p>
+      <p class="text-2xl">text-2xl (1.5rem)</p>
+      <p class="text-3xl">text-3xl (1.875rem)</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-lg font-semibold mb-4">Token Classes</h2>
+    <div class="bg-muted p-4 rounded-lg text-sm font-mono space-y-1">
+      <p><span class="text-muted-foreground"># Colors</span></p>
+      <p>text-heading, text-body, text-muted-foreground</p>
+      <p>text-link, text-link-hover</p>
+      <p>text-code, bg-code-bg</p>
+      <p class="pt-2"><span class="text-muted-foreground"># Fonts</span></p>
+      <p>font-sans, font-mono, font-heading</p>
+      <p class="pt-2"><span class="text-muted-foreground"># Sizes</span></p>
+      <p>text-xs, text-sm, text-base, text-lg, text-xl, text-2xl, text-3xl</p>
+    </div>
+  </section>
+</div>

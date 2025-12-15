@@ -1,0 +1,7 @@
+<div class="cb-component-preview">
+  <% if title %><h2 class="cb-component-preview__title"><%= title %></h2><% end %>
+  <% if description %><p class="cb-component-preview__description text-muted"><%= description %></p><% end %>
+  <%= ui("card", style: style_hash, centered: true) do %>
+    <%= content %>
+  <% end %>
+</div>

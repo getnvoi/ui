@@ -1,0 +1,25 @@
+<div class="cp-sidebar">
+  <% if header? %>
+    <div class="cp-sidebar__header"><%= header %></div>
+  <% end %>
+
+  <% if items.any? || groups.any? %>
+    <nav class="cp-sidebar__nav">
+      <% if items.any? %>
+        <ul class="cp-sidebar__menu">
+          <% items.each do |item| %>
+            <li><%= item %></li>
+          <% end %>
+        </ul>
+      <% end %>
+
+      <% groups.each do |group| %>
+        <%= group %>
+      <% end %>
+    </nav>
+  <% end %>
+
+  <% if footer? %>
+    <div class="cp-sidebar__footer"><%= footer %></div>
+  <% end %>
+</div>

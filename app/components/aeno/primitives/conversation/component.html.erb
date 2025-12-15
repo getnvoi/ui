@@ -1,0 +1,28 @@
+<div class="cp-conversation" data-controller="<%= controller_name %>">
+  <div class="cp-conversation__header">
+    <h2 class="cp-conversation__title"><%= title || "Chat" %></h2>
+  </div>
+
+  <div class="cp-conversation__messages" data-<%= controller_name %>-target="messagesContainer" id="messages">
+    <% if messages.any? %>
+      <% messages.each do |message| %>
+        <%= message %>
+      <% end %>
+    <% else %>
+      <div class="cp-conversation__empty">
+        <div class="cp-conversation__empty-content">
+          <p class="cp-conversation__empty-title">Start a conversation</p>
+          <p class="cp-conversation__empty-subtitle">Ask me anything!</p>
+        </div>
+      </div>
+    <% end %>
+
+    <div id="streaming-indicator" class="cp-conversation__streaming-hidden">
+      <%= ui("conversation/streaming-indicator") %>
+    </div>
+
+    <div data-<%= controller_name %>-target="scrollAnchor"></div>
+  </div>
+
+  <%= user_message_box %>
+</div>

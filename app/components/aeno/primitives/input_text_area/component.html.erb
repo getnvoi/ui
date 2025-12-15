@@ -1,0 +1,23 @@
+<div class="cp-input-text-area">
+  <%= render Aeno::Primitives::InputWrapper::Component.new(
+      label: label,
+      helper_text: helper_text,
+      error_text: error_text,
+      name: name,
+      id: id,
+      disabled: disabled,
+      required: required) do %>
+    <textarea
+      id="<%= id %>"
+      name="<%= name %>"
+      placeholder="<%= placeholder %>"
+      rows="<%= rows %>"
+      class="cp-input-text-area__textarea"
+      <%= 'disabled' if disabled %>
+      <%= 'required' if required %>
+      <% data.each do |key, val| %>
+        data-<%= key.to_s.dasherize %>="<%= val %>"
+      <% end %>
+    ><%= value %></textarea>
+  <% end %>
+</div>

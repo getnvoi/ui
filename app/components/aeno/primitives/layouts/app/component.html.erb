@@ -1,0 +1,14 @@
+<div class="cp-layout-app<%= " cp-layout-app--with-aside" if aside? %>">
+  <%= sidebar %>
+  <main class="cp-layout-app__main">
+    <% if header? %>
+      <header class="cp-layout-app__header">
+        <%= header %>
+      </header>
+    <% end %>
+    <div class="cp-layout-app__body">
+      <%= content %>
+    </div>
+  </main>
+  <%= aside if aside? %>
+</div>

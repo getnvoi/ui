@@ -1,0 +1,24 @@
+<div class="cp-page">
+  <div class="cp-page__header">
+    <div class="cp-page__title-area">
+      <h1 class="cp-page__title">
+        <span class="cp-page__title-text"><%= title %></span>
+        <% if subtitle %>
+          <span class="cp-page__subtitle"><%= subtitle %></span>
+        <% end %>
+      </h1>
+      <% if description %>
+        <p class="cp-page__description"><%= description %></p>
+      <% end %>
+    </div>
+    <% if actions_area %>
+      <div class="cp-page__actions">
+        <%= actions_area %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="cp-page__content">
+    <%= content %>
+  </div>
+</div>

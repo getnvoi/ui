@@ -1,0 +1,62 @@
+<% preview_content = capture do %>
+  <div class="flex flex-col gap-8 items-center">
+    <!-- Sizes -->
+    <div class="flex gap-6 items-center">
+      <%= ui("spinner", size: :xs) %>
+      <%= ui("spinner", size: :sm) %>
+      <%= ui("spinner") %>
+      <%= ui("spinner", size: :lg) %>
+      <%= ui("spinner", size: :xl) %>
+    </div>
+
+    <!-- Variants -->
+    <div class="flex gap-6 items-center">
+      <%= ui("spinner", variant: :default) %>
+      <%= ui("spinner", variant: :primary) %>
+      <div class="bg-slate-800 p-3 rounded">
+        <%= ui("spinner", variant: :white) %>
+      </div>
+      <%= ui("spinner", variant: :black) %>
+    </div>
+  </div>
+<% end %>
+
+<% code_content = capture do %><%= ui("spinner") %>
+<%= ui("spinner", size: :lg) %>
+<%= ui("spinner", variant: :white) %>
+<%= ui("spinner", size: :sm, variant: :primary) %><% end %>
+
+<% usage_content = capture do %>
+  <div class="space-y-6">
+    <div>
+      <h3 class="font-semibold mb-2">Sizes</h3>
+      <p class="text-muted-foreground text-sm mb-2">Control the spinner size with the <code class="bg-muted px-1 rounded">size</code> option.</p>
+      <div class="bg-muted p-3 rounded font-mono text-sm">
+        :xs, :sm, :default, :lg, :xl
+      </div>
+    </div>
+
+    <div>
+      <h3 class="font-semibold mb-2">Variants</h3>
+      <p class="text-muted-foreground text-sm mb-2">Control the spinner color with the <code class="bg-muted px-1 rounded">variant</code> option.</p>
+      <div class="bg-muted p-3 rounded font-mono text-sm">
+        :default, :white, :primary, :black
+      </div>
+    </div>
+
+    <div>
+      <h3 class="font-semibold mb-2">Custom CSS</h3>
+      <p class="text-muted-foreground text-sm mb-2">Add custom classes with the <code class="bg-muted px-1 rounded">css</code> option.</p>
+      <div class="bg-muted p-3 rounded font-mono text-sm">
+        &lt;%= ui("spinner", css: "my-custom-class") %&gt;
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<%= render "shared/component_page",
+  title: "Spinner",
+  description: "Loading indicator component with multiple sizes and color variants.",
+  preview: preview_content,
+  code: code_content,
+  usage: usage_content %>

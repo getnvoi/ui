@@ -1,0 +1,15 @@
+<div class="cp-empty">
+  <div class="cp-empty__container">
+    <div class="cp-empty__content">
+      <% if icon %>
+        <%= lucide_icon(icon, class: "cp-empty__icon") %>
+      <% end %>
+      <% if title %>
+        <div class="cp-empty__title"><%= title %></div>
+      <% end %>
+      <div class="cp-empty__description">
+        <%= content %>
+      </div>
+    </div>
+  </div>
+</div>

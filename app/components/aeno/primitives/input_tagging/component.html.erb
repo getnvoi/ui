@@ -1,0 +1,73 @@
+<div class="cp-input-tagging">
+  <%= render Aeno::Primitives::InputWrapper::Component.new(
+      label: label,
+      helper_text: helper_text,
+      error_text: error_text,
+      name: name,
+      id: id,
+      disabled: disabled,
+      required: required) do %>
+    <div class="cp-input-tagging__container"
+         data-controller="<%= controller_name %>"
+         <%= stimulus_values.map { |k, v| "data-#{k.dasherize}=\"#{ERB::Util.html_escape(v)}\"" }.join(" ").html_safe %>>
+
+      <div class="cp-input-tagging__tags" data-<%= controller_name %>-target="selectedContainer">
+        <% selected_tags.each do |tag| %>
+          <span class="cp-input-tagging__tag"
+                data-<%= controller_name %>-target="tag"
+                data-tag-name="<%= tag %>">
+            <%= tag %>
+            <button type="button"
+                    class="cp-input-tagging__tag-remove"
+                    data-action="click-><%= controller_name %>#removeTag">
+              <%= lucide_icon("x", class: "cp-input-tagging__tag-icon") %>
+            </button>
+          </span>
+        <% end %>
+      </div>
+
+      <div data-<%= controller_name %>-target="hiddenInputs">
+        <% selected_tags.each do |tag| %>
+          <input type="hidden" name="<%= input_name %>" value="<%= tag %>">
+        <% end %>
+      </div>
+
+      <div class="cp-input-tagging__search">
+        <input type="text"
+               class="cp-input-tagging__input"
+               placeholder="<%= placeholder || 'Search or add tags...' %>"
+               autocomplete="off"
+               data-<%= controller_name %>-target="search"
+               data-action="input-><%= controller_name %>#onSearchInput focus-><%= controller_name %>#onFocus keydown-><%= controller_name %>#onKeydown"
+               <%= 'disabled' if disabled %>>
+
+        <div class="cp-input-tagging__dropdown cp-input-tagging__dropdown--hidden"
+             data-<%= controller_name %>-target="dropdown">
+
+          <div class="cp-input-tagging__loading cp-input-tagging__loading--hidden" data-<%= controller_name %>-target="loading">
+            <%= ui("spinner", size: :sm) %>
+            <span>Loading...</span>
+          </div>
+
+          <div class="cp-input-tagging__options" data-<%= controller_name %>-target="optionsContainer">
+          </div>
+
+          <% if allow_create %>
+            <div class="cp-input-tagging__create cp-input-tagging__create--hidden" data-<%= controller_name %>-target="createOption">
+              <button type="button"
+                      class="cp-input-tagging__create-btn"
+                      data-action="click-><%= controller_name %>#createTag">
+                <%= lucide_icon("plus", class: "cp-input-tagging__create-icon") %>
+                <span>Create "<span data-<%= controller_name %>-target="createLabel"></span>"</span>
+              </button>
+            </div>
+          <% end %>
+
+          <div class="cp-input-tagging__empty cp-input-tagging__empty--hidden" data-<%= controller_name %>-target="empty">
+            No tags found.
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

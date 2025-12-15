@@ -1,0 +1,8 @@
+<div class="cp-table">
+  <table<%= " id=\"#{id}\"" if id %>>
+    <%= header if header? %>
+    <tbody>
+      <% rows.each do |row| %><%= row %><% end %>
+    </tbody>
+  </table>
+</div>

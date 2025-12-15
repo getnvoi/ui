@@ -1,0 +1,2 @@
+/* Dummy app imports engine CSS - this gets compiled to builds/tailwind.css */
+@import "../../../../../app/assets/tailwind/aeno/engine.css";

@@ -1,0 +1,62 @@
+<h1 class="text-2xl font-bold mb-2">Area</h1>
+<p class="text-muted-foreground mb-8">Cornerstone component for large layout regions: sidebar, drawer, sheet, page sections.</p>
+
+<div class="space-y-8">
+  <section>
+    <h2 class="text-lg font-semibold mb-4">Sidebar Preview</h2>
+    <div class="border border-border rounded-lg overflow-hidden h-64 flex">
+      <div class="w-48 bg-sidebar border-r border-sidebar-border p-4 flex-shrink-0">
+        <div class="font-semibold text-sidebar-foreground mb-4">Sidebar</div>
+        <nav class="space-y-1">
+          <a href="#" class="block px-3 py-2 rounded-md bg-sidebar-accent text-sidebar-accent-foreground text-sm">Dashboard</a>
+          <a href="#" class="block px-3 py-2 rounded-md text-sidebar-foreground hover:bg-sidebar-accent text-sm">Settings</a>
+          <a href="#" class="block px-3 py-2 rounded-md text-sidebar-foreground hover:bg-sidebar-accent text-sm">Profile</a>
+        </nav>
+      </div>
+      <div class="flex-1 bg-area-bg p-4">
+        <p class="text-muted-foreground text-sm">Main content area</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-lg font-semibold mb-4">Drawer</h2>
+    <p class="text-muted-foreground text-sm mb-4">Drawers slide in from the edge. Click the button to see it in action.</p>
+    <%= ui("drawer", standalone: true) do |drawer| %>
+      <% drawer.with_trigger do %>
+        <%= ui("button", label: "Open Drawer", variant: :outline) %>
+      <% end %>
+      <% drawer.with_header do %>
+        <h3 class="font-semibold">Drawer Title</h3>
+      <% end %>
+      <div class="p-6">
+        <p class="text-muted-foreground">Drawer content goes here. Uses area cornerstone tokens.</p>
+      </div>
+      <% drawer.with_footer do %>
+        <div class="flex gap-2 justify-end">
+          <%= ui("button", label: "Cancel", variant: :outline) %>
+          <%= ui("button", label: "Save") %>
+        </div>
+      <% end %>
+    <% end %>
+  </section>
+
+  <section>
+    <h2 class="text-lg font-semibold mb-4">Page Section</h2>
+    <div class="bg-area-bg border border-area-border rounded-area p-6">
+      <h3 class="font-semibold mb-2">Section Title</h3>
+      <p class="text-muted-foreground text-sm">Page sections use area tokens for consistent spacing and styling across large regions.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-lg font-semibold mb-4">Token Classes</h2>
+    <div class="bg-muted p-4 rounded-lg text-sm font-mono space-y-1">
+      <p><span class="text-muted-foreground"># Area (general)</span></p>
+      <p>bg-area-bg, border-area-border, rounded-area</p>
+      <p class="pt-2"><span class="text-muted-foreground"># Sidebar (specific)</span></p>
+      <p>bg-sidebar, text-sidebar-foreground, border-sidebar-border</p>
+      <p>bg-sidebar-accent, text-sidebar-accent-foreground</p>
+    </div>
+  </section>
+</div>

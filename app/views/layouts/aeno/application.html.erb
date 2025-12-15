@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html data-theme="<%= current_theme %>" data-mode="<%= current_mode %>">
+  <head>
+    <title>Aeno</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= yield :head %>
+    <%= stylesheet_link_tag "aeno/application", media: "all" %>
+    <%= javascript_importmap_tags "aeno/application", importmap: Aeno.importmap %>
+  </head>
+  <body>
+    <%= ui("layouts/app") do |layout| %>
+      <% layout.with_sidebar(style: { width: "240px" }) do %>
+        <%= ui("sidebar") do |s| %>
+          <% s.with_header do %>
+            <a href="#" class="cp-layout-app__logo">Aeno</a>
+          <% end %>
+
+          <% s.with_group(label: "Primitives") do |g| %>
+            <% primitives.each do |name| %>
+              <% g.with_item(label: name.titleize, href: showcase_component_path("primitives", name)) %>
+            <% end %>
+          <% end %>
+
+          <% s.with_group(label: "Blocks") do |g| %>
+            <% blocks.each do |name| %>
+              <% g.with_item(label: name.titleize, href: showcase_component_path("blocks", name)) %>
+            <% end %>
+          <% end %>
+
+          <% s.with_footer do %>
+            <span>v0.1.0</span>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <%= yield %>
+    <% end %>
+
+    <div class="cg-theme-toggle">
+      <%= ui("dropdown", placement: :top, strategy: :fixed) do |d| %>
+        <% d.with_trigger do %>
+          <%= ui("button", icon: "palette", label: "#{current_theme.titleize} (#{current_mode.titleize})", variant: :outline, css: "text-xs") %>
+        <% end %>
+        <% d.with_label do %>Palette<% end %>
+        <% d.with_item(href: theme_path(theme: "slate", mode: current_mode), method: :patch, form_data: { turbo: false }) do %>Slate<% end %>
+        <% d.with_item(href: theme_path(theme: "zinc", mode: current_mode), method: :patch, form_data: { turbo: false }) do %>Zinc<% end %>
+        <% d.with_separator %>
+        <% d.with_label do %>Mode<% end %>
+        <% d.with_item(href: theme_path(theme: current_theme, mode: "light"), method: :patch, form_data: { turbo: false }) do %>Light<% end %>
+        <% d.with_item(href: theme_path(theme: current_theme, mode: "dark"), method: :patch, form_data: { turbo: false }) do %>Dark<% end %>
+      <% end %>
+    </div>
+  </body>
+</html>

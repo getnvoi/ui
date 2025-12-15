@@ -1,0 +1,38 @@
+<div class="cg-showcase">
+  <h1><%= title %></h1>
+  <% if description %>
+    <p class="text-muted"><%= description %></p>
+  <% end %>
+
+  <% examples.each do |example| %>
+    <%= block("component_preview", title: example.title, description: example.description) do %>
+      <% example.previews.each do |preview| %>
+        <%= render_component(**preview.props) %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <%= ui("card") do %>
+    <h2>Props</h2>
+    <%= ui("card") do %>
+      <%= ui("table") do |t| %>
+        <% t.with_header do |h| %>
+          <% h.with_column do %>Name<% end %>
+          <% h.with_column do %>Description<% end %>
+          <% h.with_column do %>Values<% end %>
+        <% end %>
+        <% props.each do |name, meta| %>
+          <% t.with_row do |r| %>
+            <% r.with_cell do %><code><%= name %></code><% end %>
+            <% r.with_cell do %><%= meta[:description] %><% end %>
+            <% r.with_cell do %>
+              <% if meta[:values] %>
+                <% meta[:values].each do |v| %><code><%= v %></code> <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>
