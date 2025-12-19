@@ -40,5 +40,14 @@ module Aeno
         before_action { Aeno.importmap.cache_sweeper.execute_if_updated }
       end
     end
+
+    # # Ensure migrations are available to the host app
+    # initializer "aeno.migrations" do
+    #   unless Rails.env.test?
+    #     config.paths["db/migrate"].expanded.each do |expanded_path|
+    #       Rails.application.config.paths["db/migrate"] << expanded_path
+    #     end
+    #   end
+    # end
   end
 end

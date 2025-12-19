@@ -319,4 +319,70 @@ class Aeno::FormTest < ViewComponent::TestCase
     assert_includes action_attr, "submit->aeno--form#submit", "Should include default submit action"
     assert_includes action_attr, "custom->handler#method", "Should include custom action"
   end
+
+  def test_form_with_existing_related_contacts_renders_them
+    # Build contact with existing related contacts (simulating .build with IDs)
+    contact = Aeno::Contact.new(id: 1, name: "John Doe", email: "john@example.com")
+
+    # Build first related contact with phones
+    related1 = contact.related_contacts.build(id: 10, name: "Jane Doe", email: "jane@example.com")
+    related1.phones.build(id: 100, number: "555-1234", phone_type: "mobile")
+    related1.phones.build(id: 101, number: "555-5678", phone_type: "work")
+
+    # Build second related contact with one phone
+    related2 = contact.related_contacts.build(id: 11, name: "Bob Smith", email: "bob@example.com")
+    related2.phones.build(id: 102, number: "555-9999", phone_type: "home")
+
+    # Render form with nested structure
+    render_inline(Aeno::Form::Component.new(
+      model: contact,
+      url: "/contacts/1",
+      method: :patch
+    )) do |component|
+      component.with_item_input(type: :text, name: "name", label: "Name")
+      component.with_item_input(type: :text, name: "email", label: "Email")
+
+      component.with_item_nested(name: :related_contacts, label: "Related Contacts") do |n|
+        n.with_item_input(type: :text, name: "name", label: "Contact Name")
+        n.with_item_input(type: :text, name: "email", label: "Email")
+
+        n.with_item_nested(name: :phones, label: "Phone Numbers") do |p|
+          p.with_item_input(type: :text, name: "number", label: "Phone Number")
+          p.with_item_input(type: :text, name: "phone_type", label: "Type")
+        end
+      end
+
+      component.with_submit(label: "Update Contact", variant: :default, type: "submit")
+    end
+
+    # CRITICAL ASSERTIONS: Existing related contacts should be VISIBLE (not in template)
+
+    # Related Contact 1: Jane Doe
+    assert_selector "input[name*='[related_contacts_attributes]'][name$='[name]'][value='Jane Doe']",
+      "Jane Doe should be visible as existing record"
+    assert_selector "input[name*='[related_contacts_attributes]'][name$='[email]'][value='jane@example.com']"
+    assert_selector "input[type='hidden'][name*='[related_contacts_attributes]'][name$='[id]'][value='10']", visible: false,
+      "Should have hidden ID field for existing record"
+
+    # Jane's phones
+    assert_selector "input[name*='[phones_attributes]'][name$='[number]'][value='555-1234']",
+      "Jane's first phone should be visible"
+    assert_selector "input[name*='[phones_attributes]'][name$='[number]'][value='555-5678']",
+      "Jane's second phone should be visible"
+
+    # Related Contact 2: Bob Smith
+    assert_selector "input[name*='[related_contacts_attributes]'][name$='[name]'][value='Bob Smith']",
+      "Bob Smith should be visible as existing record"
+    assert_selector "input[name*='[related_contacts_attributes]'][name$='[id]'][value='11']", visible: false
+
+    # Bob's phone
+    assert_selector "input[name*='[phones_attributes]'][name$='[number]'][value='555-9999']",
+      "Bob's phone should be visible"
+
+    # Template should still exist for adding NEW records
+    assert_selector "div[data-aeno--form-target='template'].hidden", visible: false, minimum: 1
+    templates = page.all("div[data-aeno--form-target='template'].hidden", visible: false)
+    all_template_content = templates.map { |t| t.native.inner_html }.join(" ")
+    assert_includes all_template_content, "NEW_RECORD", "Template should exist for adding new records"
+  end
 end

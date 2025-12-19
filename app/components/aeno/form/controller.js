@@ -1,5 +1,25 @@
 import { Controller } from "@hotwired/stimulus";
 
+// Business logic for nested form record ID generation
+function generateRecordId() {
+  return new Date().getTime().toString();
+}
+
+function replaceNewRecord(templateContent, attributeName, recordId = null) {
+  const id = recordId || generateRecordId();
+
+  if (attributeName) {
+    // Replace only NEW_RECORD that comes after this specific attribute name
+    // Pattern matches: attribute_name][NEW_RECORD]
+    const escapedAttrName = attributeName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const pattern = new RegExp(`(${escapedAttrName}\\]\\[)NEW_RECORD(\\])`, 'g');
+    return templateContent.replace(pattern, `$1${id}$2`);
+  } else {
+    // Fallback: replace all NEW_RECORD
+    return templateContent.replace(/NEW_RECORD/g, id);
+  }
+}
+
 // Nested form controller adapted for div-based templates (hidden with class="hidden")
 // Based on stimulus-rails-nested-form: https://www.stimulus-components.com/docs/stimulus-rails-nested-form/
 export default class extends Controller {
@@ -18,12 +38,9 @@ export default class extends Controller {
   add(e) {
     e.preventDefault();
 
-    // Clone template content and replace NEW_RECORD with timestamp
-    const timestamp = new Date().getTime().toString();
-    const content = this.templateTarget.innerHTML.replace(
-      /NEW_RECORD/g,
-      timestamp,
-    );
+    const templateContent = this.templateTarget.innerHTML;
+    const attributeName = this.element.dataset.attributeName;
+    const content = replaceNewRecord(templateContent, attributeName);
 
     // Insert the cloned content
     this.targetTarget.insertAdjacentHTML("beforebegin", content);
@@ -35,8 +52,8 @@ export default class extends Controller {
       if (addedElement.tagName === "FIELDSET") {
         addedElement.removeAttribute("disabled");
       }
-      // Otherwise, find fieldset inside
-      const fieldset = addedElement.querySelector("fieldset[disabled]");
+      // Otherwise, find direct child fieldset only (not nested templates)
+      const fieldset = addedElement.querySelector(":scope > fieldset[disabled]");
       if (fieldset) {
         fieldset.removeAttribute("disabled");
       }
@@ -122,3 +139,6 @@ export default class extends Controller {
     }
   }
 }
+
+// Export for testing
+export { generateRecordId, replaceNewRecord };
