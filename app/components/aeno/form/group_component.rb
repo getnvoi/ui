@@ -9,8 +9,8 @@ module Aeno::Form
 
     renders_many :items, types: {
       input: ->(**args) { input_slot_lambda.call(**args) },
-      row: ->(**args) { RowComponent.new(form_builder: form_builder, **args) },
-      nested: ->(**args, &block) { NestedComponent.new(form_builder: form_builder, **args, &block) }
+      row: ->(**args) { RowComponent.new(form_builder:, **args) },
+      nested: ->(**args, &block) { NestedComponent.new(form_builder:, **args, &block) }
     }
   end
 end

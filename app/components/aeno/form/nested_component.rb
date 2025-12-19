@@ -12,7 +12,7 @@ module Aeno::Form
     option :allow_destroy, default: proc { true }
 
     def initialize(name:, form_builder:, **options, &block)
-      super(name: name, form_builder: form_builder, **options)
+      super(name:, form_builder:, **options)
       @content_block = block
     end
 

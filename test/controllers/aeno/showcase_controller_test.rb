@@ -19,7 +19,7 @@ module Aeno
         assert_response :success, "Expected #{component_title} showcase to render successfully"
 
         # Assert at least one example exists
-        assert_select '[data-example-key]', { minimum: 1 }, "#{component_title} must have at least one example"
+        assert_select "[data-example-key]", { minimum: 1 }, "#{component_title} must have at least one example"
 
         # Assert each example has a data-controller within it
         component_class = "Aeno::#{component_path.camelize}::Component".constantize

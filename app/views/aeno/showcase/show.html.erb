@@ -14,7 +14,9 @@
       <div class="space-y-4 p-6 bg-white rounded-lg border">
         <% example.previews.each do |preview| %>
           <div class="flex items-center gap-4">
-            <% if preview.block %>
+            <% if preview.template %>
+              <%= render(inline: preview.template, type: :erb) %>
+            <% elsif preview.block %>
               <%= render(@component.new(**preview.props), &preview.block) %>
             <% else %>
               <%= render(@component.new(**preview.props)) %>

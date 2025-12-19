@@ -21,12 +21,12 @@ module Aeno
 
     private
 
-    def load_components
-      @components = component_paths.keys.sort
-    end
+      def load_components
+        @components = component_paths.keys.sort
+      end
 
-    def component_paths
-      @component_paths ||= self.class.discover_component_paths
-    end
+      def component_paths
+        @component_paths ||= self.class.discover_component_paths
+      end
   end
 end

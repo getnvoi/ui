@@ -15,8 +15,8 @@ module Aeno::Table
     renders_one :header, lambda { |&block|
       HeaderComponent.new(
         table: self,
-        selectable: selectable,
-        sticky: sticky,
+        selectable:,
+        sticky:,
         &block
       )
     }
@@ -28,10 +28,10 @@ module Aeno::Table
 
       RowComponent.new(
         table: self,
-        id: id,
-        css: css,
-        selectable: selectable,
-        sticky: sticky,
+        id:,
+        css:,
+        selectable:,
+        sticky:,
         &block
       )
     }
@@ -59,9 +59,9 @@ module Aeno::Table
 
       renders_many :columns, lambda { |css: nil, &block|
         ColumnComponent.new(
-          selectable: selectable,
-          sticky: sticky,
-          css: css,
+          selectable:,
+          sticky:,
+          css:,
           &block
         )
       }
@@ -145,10 +145,10 @@ module Aeno::Table
 
       renders_many :cells, lambda { |css: nil, &block|
         CellComponent.new(
-          selectable: selectable,
-          sticky: sticky,
-          row_id: row_id,
-          css: css,
+          selectable:,
+          sticky:,
+          row_id:,
+          css:,
           &block
         )
       }
@@ -230,10 +230,6 @@ module Aeno::Table
         "min-w-full divide-y divide-gray-200 table-fixed",
         css
       ].compact.join(" ")
-    end
-
-    def controller_name
-      "aeno--table" if selectable || filters.any? || pagination?
     end
 
     examples("Table", description: "Data tables with selection, filters, and sticky columns") do |b|
@@ -590,7 +586,6 @@ module Aeno::Table
           end
         end
       end
-
     end
   end
 end

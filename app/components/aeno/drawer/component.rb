@@ -147,7 +147,7 @@ module Aeno::Drawer
             '<button class="px-4 py-2 bg-slate-600 text-white rounded">Edit Profile</button>'.html_safe
           end
           drawer.with_header { "Edit Profile" }
-          drawer.with_form(model: Contact.new, url: "/profile") do |form|
+          drawer.with_form(model: Aeno::Contact.new, url: "/profile") do |form|
             form.with_item_input(type: :text, name: "name", label: "Name")
             form.with_item_input(type: :text, name: "email", label: "Email")
             form.with_item_input(type: :text, name: "city", label: "City")
@@ -160,6 +160,47 @@ module Aeno::Drawer
             form.with_action(label: "Cancel", variant: :secondary, type: "button")
           end
         end
+      end
+
+      b.example(:nested, title: "Triple Nested Drawers") do |e|
+        e.preview_template standalone: true, template: <<~ERB
+          <%= render(Aeno::Drawer::Component.new(standalone: true, width: "w-[700px]")) do |drawer1| %>
+            <%= drawer1.with_trigger do %>
+              <%= render(Aeno::Button::Component.new(variant: :default, label: "View Documents")) %>
+            <% end %>
+            <%= drawer1.with_header { "Documents" } %>
+            <%= drawer1.with_empty do |empty1| %>
+              <%= empty1.with_title { "No documents uploaded yet" } %>
+              <p class="text-sm text-gray-600 mb-4">Start by uploading your first document</p>
+              <%= render(Aeno::Drawer::Component.new(standalone: true, width: "w-[650px]")) do |drawer2| %>
+                <%= drawer2.with_trigger do %>
+                  <%= render(Aeno::Button::Component.new(variant: :default, label: "Upload Document")) %>
+                <% end %>
+                <%= drawer2.with_header { "Upload Document" } %>
+                <%= drawer2.with_empty do |empty2| %>
+                  <%= empty2.with_title { "Choose upload method" } %>
+                  <p class="text-sm text-gray-600 mb-4">Select how you want to upload your document</p>
+                  <%= render(Aeno::Drawer::Component.new(standalone: true, width: "w-[600px]")) do |drawer3| %>
+                    <%= drawer3.with_trigger do %>
+                      <%= render(Aeno::Button::Component.new(variant: :default, label: "Browse Files")) %>
+                    <% end %>
+                    <%= drawer3.with_header { "File Browser" } %>
+                    <%= drawer3.with_empty do |empty3| %>
+                      <%= empty3.with_title { "Select a file" } %>
+                      <div class="p-6">
+                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-12 text-center">
+                          <%= lucide_icon("upload-cloud", class: "mx-auto h-12 w-12 text-gray-400") %>
+                          <p class="mt-2 text-sm text-gray-600">Click to upload or drag and drop</p>
+                          <p class="text-xs text-gray-500">PDF, DOC, DOCX up to 10MB</p>
+                        </div>
+                      </div>
+                    <% end %>
+                  <% end %>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+        ERB
       end
     end
 

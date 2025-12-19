@@ -35,4 +35,3 @@ module Aeno::Input::Select
     end
   end
 end
-

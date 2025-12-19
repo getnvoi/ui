@@ -10,4 +10,3 @@ module Aeno::Input::Password
     end
   end
 end
-

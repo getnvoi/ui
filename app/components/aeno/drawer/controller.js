@@ -20,6 +20,7 @@ export default class extends Controller {
   };
 
   open() {
+    this.#stackAboveExisting();
     requestAnimationFrame(() => {
       this.backgroundTarget.classList.add("opacity-100", "pointer-events-auto");
       this.backgroundTarget.classList.remove(
@@ -90,7 +91,10 @@ export default class extends Controller {
     const allWrappers = document.querySelectorAll(
       `[data-${this.identifier}-target="wrapper"]`,
     );
-    const zIndexes = Array.from(allWrappers).map((el) => ({
+    const openWrappers = Array.from(allWrappers).filter(
+      (el) => !el.classList.contains("translate-x-full"),
+    );
+    const zIndexes = openWrappers.map((el) => ({
       el,
       z: parseInt(getComputedStyle(el).zIndex) || 0,
     }));

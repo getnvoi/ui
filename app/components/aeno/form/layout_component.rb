@@ -7,9 +7,9 @@ module Aeno::Form
 
     renders_many :items, types: {
       input: ->(**args) { input_slot_lambda.call(**args) },
-      group: ->(**args) { GroupComponent.new(form_builder: form_builder, **args) },
-      row: ->(**args) { RowComponent.new(form_builder: form_builder, **args) },
-      nested: ->(**args, &block) { NestedComponent.new(form_builder: form_builder, **args, &block) }
+      group: ->(**args) { GroupComponent.new(form_builder:, **args) },
+      row: ->(**args) { RowComponent.new(form_builder:, **args) },
+      nested: ->(**args, &block) { NestedComponent.new(form_builder:, **args, &block) }
     }
 
     renders_one :submit, Aeno::Button::Component

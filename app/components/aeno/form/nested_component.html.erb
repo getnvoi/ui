@@ -1,4 +1,4 @@
-<div data-controller="aeno--form" data-role="nested" class="w-full <%= css %>" data-aeno--form-wrapper-selector-value="<%= wrapper_selector %>">
+<div data-controller="aeno--form" data-role="nested" class="w-full <%= css %>" data-aeno--form-wrapper-selector-value="<%= wrapper_selector %>" data-attribute-name="<%= name %>_attributes">
   <% if label %>
     <h3><%= label %></h3>
   <% end %>
@@ -38,10 +38,6 @@
   <div data-aeno--form-target="target">
     <%
       collection = form_builder.object&.public_send(name) || []
-      # Include persisted records OR new records that have been modified (not blank)
-      collection = collection.select do |record|
-        record.persisted? || record.changed? || record.errors.any?
-      end
     %>
     <% if collection.any? %>
       <%= form_builder.fields_for(name, collection) do |nested_builder| %>
@@ -61,7 +57,7 @@
           <% if allow_destroy %>
             <%= nested_builder.hidden_field :_destroy, value: "0" %>
           <% end %>
-          <% if nested_builder.object&.persisted? %>
+          <% if nested_builder.object&.id.present? %>
             <%= nested_builder.hidden_field :id %>
           <% end %>
         </div>

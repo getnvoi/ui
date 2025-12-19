@@ -41,4 +41,3 @@ module Aeno::Input::TextAreaAi
     end
   end
 end
-

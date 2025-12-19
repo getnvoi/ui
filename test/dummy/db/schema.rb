@@ -10,40 +10,41 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_18_091105) do
-  create_table "contacts", force: :cascade do |t|
-    t.text "bio"
-    t.string "city"
-    t.string "company"
+ActiveRecord::Schema[8.1].define(version: 2025_12_19_100003) do
+  create_table "aeno_contact_relationships", force: :cascade do |t|
+    t.integer "contact_id", null: false
     t.datetime "created_at", null: false
-    t.string "email"
-    t.string "location"
-    t.string "name"
-    t.string "phone"
-    t.string "role"
-    t.string "state"
+    t.integer "related_contact_id", null: false
+    t.string "relation_type"
     t.datetime "updated_at", null: false
-    t.string "website"
+    t.index ["contact_id"], name: "index_aeno_contact_relationships_on_contact_id"
+    t.index ["related_contact_id"], name: "index_aeno_contact_relationships_on_related_contact_id"
   end
 
-  create_table "phones", force: :cascade do |t|
+  create_table "aeno_contacts", force: :cascade do |t|
+    t.string "address"
+    t.date "birth_date"
+    t.string "city"
+    t.string "company"
+    t.string "country"
+    t.datetime "created_at", null: false
+    t.string "email"
+    t.string "job_title"
+    t.string "name"
+    t.text "notes"
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "aeno_phones", force: :cascade do |t|
+    t.integer "contact_id", null: false
     t.datetime "created_at", null: false
     t.string "number"
     t.string "phone_type"
-    t.integer "sibling_id", null: false
     t.datetime "updated_at", null: false
-    t.index ["sibling_id"], name: "index_phones_on_sibling_id"
+    t.index ["contact_id"], name: "index_aeno_phones_on_contact_id"
   end
 
-  create_table "siblings", force: :cascade do |t|
-    t.string "age"
-    t.integer "contact_id", null: false
-    t.datetime "created_at", null: false
-    t.string "name"
-    t.datetime "updated_at", null: false
-    t.index ["contact_id"], name: "index_siblings_on_contact_id"
-  end
-
-  add_foreign_key "phones", "siblings"
-  add_foreign_key "siblings", "contacts"
+  add_foreign_key "aeno_contact_relationships", "aeno_contacts", column: "contact_id"
+  add_foreign_key "aeno_contact_relationships", "aeno_contacts", column: "related_contact_id"
+  add_foreign_key "aeno_phones", "aeno_contacts", column: "contact_id"
 end

@@ -8,9 +8,9 @@ module Aeno
           full_path = path.match(/app\/components\/aeno\/(.+)\/component\.rb/)[1]
 
           # Skip nested components (e.g., conversation/message, layouts/agentic, dropdown/option)
-          next if full_path.include?('/')
+          next if full_path.include?("/")
 
-          name = full_path.split('/').last.underscore
+          name = full_path.split("/").last.underscore
           hash[name] = full_path
         end
       end

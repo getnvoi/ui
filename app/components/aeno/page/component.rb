@@ -18,4 +18,3 @@ module Aeno::Page
     end
   end
 end
-

@@ -19,9 +19,9 @@ class ShowcaseController < ApplicationController
 
   private
 
-  def discover_components
-    Dir.glob(Rails.root.join("../../app/components/aeno/**/component.rb")).map do |path|
-      path.match(/aeno\/(.+)\/component\.rb/)[1]
-    end.sort
-  end
+    def discover_components
+      Dir.glob(Rails.root.join("../../app/components/aeno/**/component.rb")).map do |path|
+        path.match(/aeno\/(.+)\/component\.rb/)[1]
+      end.sort
+    end
 end

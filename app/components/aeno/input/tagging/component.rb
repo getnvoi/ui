@@ -30,4 +30,3 @@ module Aeno::Input::Tagging
     end
   end
 end
-

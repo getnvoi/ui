@@ -42,4 +42,3 @@ module Aeno::Input::Attachments
       end
   end
 end
-

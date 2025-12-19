@@ -37,11 +37,12 @@ module Aeno
     # ═══════════════════════════════════════════════════════════════════════════
 
     class ExamplePreview
-      attr_reader :props, :block
+      attr_reader :props, :block, :template
 
-      def initialize(props, block)
+      def initialize(props, block: nil, template: nil)
         @props = props
         @block = block
+        @template = template
       end
     end
 
@@ -56,7 +57,11 @@ module Aeno
       end
 
       def preview(**props, &block)
-        @previews << ExamplePreview.new(props, block)
+        @previews << ExamplePreview.new(props, block:)
+      end
+
+      def preview_template(template:, **props)
+        @previews << ExamplePreview.new(props, template:)
       end
     end
 

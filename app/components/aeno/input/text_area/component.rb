@@ -9,4 +9,3 @@ module Aeno::Input::TextArea
     end
   end
 end
-

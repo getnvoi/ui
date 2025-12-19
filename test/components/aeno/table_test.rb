@@ -234,14 +234,14 @@ class Aeno::TableTest < ViewComponent::TestCase
     assert_selector "[data-controller='aeno--table']"
   end
 
-  def test_non_selectable_table_has_no_stimulus_controller
+  def test_non_selectable_table_has_stimulus_controller
     render_inline Aeno::Table::Component.new do |t|
       t.with_header do |h|
         h.with_column { "Name" }
       end
     end
 
-    refute_selector "[data-controller='aeno--table']"
+    assert_selector "[data-controller='aeno--table']"
   end
 
   def test_selectable_embeds_checkbox_in_first_header_cell

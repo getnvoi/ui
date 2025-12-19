@@ -43,89 +43,89 @@ module Aeno::Table
 
     private
 
-    def render_search
-      data_attrs = {
-        action: "input->aeno--table#search",
-        "aeno--table-debounce-value": debounce
-      }
-      data_attrs["aeno--table-url-value"] = url if url
+      def render_search
+        data_attrs = {
+          action: "input->aeno--table#search",
+          "aeno--table-debounce-value": debounce
+        }
+        data_attrs["aeno--table-url-value"] = url if url
 
-      render Aeno::Input::Text::Component.new(
-        name: name,
-        placeholder: placeholder,
-        value: current_value,
-        data: action_data.merge(data_attrs)
-      )
-    end
-
-    def render_button
-      render Aeno::Button::Component.new(
-        type: "button",
-        label: label,
-        variant: variant || :secondary,
-        icon: icon,
-        data: action_data.merge(
-          action: "click->aeno--table#performAction",
-          "aeno--table-url-value": url,
-          "aeno--table-method-value": method
+        render Aeno::Input::Text::Component.new(
+          name:,
+          placeholder:,
+          value: current_value,
+          data: action_data.merge(data_attrs)
         )
-      )
-    end
+      end
 
-    def render_select
-      data_attrs = {
-        action: "change->aeno--table#performFilterAction"
-      }
-      data_attrs["aeno--table-url-value"] = url if url
-
-      select_component = Aeno::Input::Select::Component.new(
-        name: name,
-        id: name,
-        value: current_value,
-        data: action_data.merge(data_attrs)
-      )
-
-      @select_block.call(select_component) if @select_block
-
-      render select_component
-    end
-
-    def render_confirm
-      # Future implementation - modal confirmation before action
-      content_tag(:div, "Confirm action (not yet implemented)")
-    end
-
-    def render_clear_filters
-      return unless has_active_filters?
-
-      render Aeno::Button::Component.new(
-        type: "button",
-        label: label || "Clear filters",
-        variant: variant || :secondary,
-        icon: icon || "x",
-        data: action_data.merge(
-          action: "click->aeno--table#clearFilters",
-          "aeno--table-url-value": clear_url
+      def render_button
+        render Aeno::Button::Component.new(
+          type: "button",
+          label:,
+          variant: variant || :secondary,
+          icon:,
+          data: action_data.merge(
+            action: "click->aeno--table#performAction",
+            "aeno--table-url-value": url,
+            "aeno--table-method-value": method
+          )
         )
-      )
-    end
+      end
 
-    def action_data
-      data || {}
-    end
+      def render_select
+        data_attrs = {
+          action: "change->aeno--table#performFilterAction"
+        }
+        data_attrs["aeno--table-url-value"] = url if url
 
-    def current_value
-      helpers.request.params[name]
-    end
+        select_component = Aeno::Input::Select::Component.new(
+          name:,
+          id: name,
+          value: current_value,
+          data: action_data.merge(data_attrs)
+        )
 
-    def has_active_filters?
-      return false if filter_names.empty?
+        @select_block.call(select_component) if @select_block
 
-      filter_names.any? { |filter_name| helpers.request.params[filter_name].present? }
-    end
+        render select_component
+      end
 
-    def clear_url
-      url || helpers.request.path
-    end
+      def render_confirm
+        # Future implementation - modal confirmation before action
+        content_tag(:div, "Confirm action (not yet implemented)")
+      end
+
+      def render_clear_filters
+        return unless has_active_filters?
+
+        render Aeno::Button::Component.new(
+          type: "button",
+          label: label || "Clear filters",
+          variant: variant || :secondary,
+          icon: icon || "x",
+          data: action_data.merge(
+            action: "click->aeno--table#clearFilters",
+            "aeno--table-url-value": clear_url
+          )
+        )
+      end
+
+      def action_data
+        data || {}
+      end
+
+      def current_value
+        helpers.request.params[name]
+      end
+
+      def has_active_filters?
+        return false if filter_names.empty?
+
+        filter_names.any? { |filter_name| helpers.request.params[filter_name].present? }
+      end
+
+      def clear_url
+        url || helpers.request.path
+      end
   end
 end

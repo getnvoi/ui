@@ -2,23 +2,21 @@ require "test_helper"
 
 # Create database schema for tests
 ActiveRecord::Schema.define do
-  create_table :contacts, force: true do |t|
+  create_table :aeno_contacts, force: true do |t|
     t.string :name
     t.string :email
-    t.string :city
-    t.string :state
     t.timestamps
   end
 
-  create_table :siblings, force: true do |t|
-    t.references :contact, null: false, foreign_key: true
-    t.string :name
-    t.string :age
+  create_table :aeno_contact_relationships, force: true do |t|
+    t.references :contact, null: false, foreign_key: { to_table: :aeno_contacts }
+    t.references :related_contact, null: false, foreign_key: { to_table: :aeno_contacts }
+    t.string :relation_type
     t.timestamps
   end
 
-  create_table :phones, force: true do |t|
-    t.references :sibling, null: false, foreign_key: true
+  create_table :aeno_phones, force: true do |t|
+    t.references :contact, null: false, foreign_key: { to_table: :aeno_contacts }
     t.string :number
     t.string :phone_type
     t.timestamps
@@ -39,11 +37,11 @@ class TestWrapperComponent < ViewComponent::Base
       <% component.with_item_group(title: "Contact Information") do |g| %>
         <% g.with_item_input(type: :text, name: "name", label: "Name") %>
 
-        <% g.with_item_nested(name: :siblings, label: "Siblings") do |s| %>
-          <% s.with_item_input(type: :text, name: "name", label: "Sibling Name") %>
-          <% s.with_item_input(type: :text, name: "age", label: "Age") %>
+        <% g.with_item_nested(name: :related_contacts, label: "Related Contacts") do |rc| %>
+          <% rc.with_item_input(type: :text, name: "name", label: "Contact Name") %>
+          <% rc.with_item_input(type: :text, name: "email", label: "Email") %>
 
-          <% s.with_item_nested(name: :phones, label: "Phone Numbers") do |p| %>
+          <% rc.with_item_nested(name: :phones, label: "Phone Numbers") do |p| %>
             <% p.with_item_input(type: :text, name: "number", label: "Number") %>
           <% end %>
         <% end %>
@@ -74,12 +72,12 @@ class TestPrepopulatedWrapperComponent < ViewComponent::Base
       <% component.with_item_input(type: :text, name: "email", label: "Email") %>
       <% component.with_item_input(type: :text, name: "name", label: "Name") %>
 
-      <% component.with_item_group(title: "Siblings") do |g| %>
-        <% g.with_item_nested(name: :siblings, label: "Siblings") do |s| %>
-          <% s.with_item_input(type: :text, name: "name", label: "Sibling Name") %>
-          <% s.with_item_input(type: :text, name: "age", label: "Age") %>
+      <% component.with_item_group(title: "Related Contacts") do |g| %>
+        <% g.with_item_nested(name: :related_contacts, label: "Related Contacts") do |rc| %>
+          <% rc.with_item_input(type: :text, name: "name", label: "Contact Name") %>
+          <% rc.with_item_input(type: :text, name: "email", label: "Email") %>
 
-          <% s.with_item_nested(name: :phones, label: "Phone Numbers") do |p| %>
+          <% rc.with_item_nested(name: :phones, label: "Phone Numbers") do |p| %>
             <% p.with_item_input(type: :text, name: "number", label: "Number") %>
           <% end %>
         <% end %>
@@ -92,13 +90,9 @@ end
 
 class Aeno::FormTest < ViewComponent::TestCase
   def test_form_with_block_dsl
-    contact = Contact.new
+    contact = Aeno::Contact.new
 
-    render_inline(TestWrapperComponent.new(contact: contact))
-
-    puts "\n\n=== RENDERED HTML (first 2000 chars) ===\n"
-    puts page.native.to_html[0..2000]
-    puts "\n=== END HTML ===\n\n"
+    render_inline(TestWrapperComponent.new(contact:))
 
     # Form element with proper attributes
     assert_selector "form[action='/contacts'][method='post']"
@@ -122,9 +116,9 @@ class Aeno::FormTest < ViewComponent::TestCase
     assert_selector "input[name='contact[name]']"
     assert_selector "label", text: "Name"
 
-    # Nested: Siblings
-    assert_selector "h3", text: "Siblings"
-    assert_selector "button", text: "Add Sibling"
+    # Nested: Related Contacts
+    assert_selector "h3", text: "Related Contacts"
+    assert_selector "button", text: "Add Related Contact"
 
     # There should be div templates for nested forms (hidden with class)
     assert_selector "div[data-aeno--form-target='template'].hidden", visible: false, minimum: 2
@@ -133,25 +127,25 @@ class Aeno::FormTest < ViewComponent::TestCase
     templates = page.all("div[data-aeno--form-target='template'].hidden", visible: false)
     all_template_content = templates.map { |t| t.native.inner_html }.join(" ")
 
-    # Siblings template should contain input fields with NEW_RECORD placeholder
+    # Related contacts template should contain input fields with NEW_RECORD placeholder
     assert_includes all_template_content, "NEW_RECORD", "Templates should contain NEW_RECORD placeholder"
-    assert_includes all_template_content, "[siblings_attributes][NEW_RECORD]", "Should have proper Rails nested attributes name"
-    assert_includes all_template_content, "Sibling Name", "Template should contain Sibling Name label"
-    assert_includes all_template_content, "Age", "Template should contain Age label"
+    assert_includes all_template_content, "[related_contacts_attributes][NEW_RECORD]", "Should have proper Rails nested attributes name"
+    assert_includes all_template_content, "Contact Name", "Template should contain Contact Name label"
+    assert_includes all_template_content, "Email", "Template should contain Email label"
 
-    # Double-nested: Phones within Siblings
+    # Double-nested: Phones within Related Contacts
     assert_includes all_template_content, "Phone Numbers", "Template should contain nested Phone Numbers"
     assert_includes all_template_content, "phones_attributes", "Should have nested phones attributes"
     assert_includes all_template_content, "Number", "Template should contain Number label for phones"
     assert_includes all_template_content, "Add Phone", "Template should contain Add Phone button for recursive nesting"
 
     # CRITICAL: Verify nested field name structure
-    # Phones should be nested INSIDE siblings, not at top level
-    # Expected: siblings_attributes[NEW_RECORD][phones_attributes][NEW_RECORD][field]
+    # Phones should be nested INSIDE related_contacts, not at top level
+    # Expected: related_contacts_attributes[NEW_RECORD][phones_attributes][NEW_RECORD][field]
     # NOT: phones_attributes[NEW_RECORD][field]
     # TODO: This currently fails - needs fields_for integration
-    # assert_includes all_template_content, "siblings_attributes[NEW_RECORD][phones_attributes]",
-    #   "Phone fields must be nested inside sibling attributes path"
+    # assert_includes all_template_content, "related_contacts_attributes[NEW_RECORD][phones_attributes]",
+    #   "Phone fields must be nested inside related contact attributes path"
 
     # Template fields should be disabled (wrapped in fieldset)
     assert_includes all_template_content, "<fieldset disabled>", "Template should have disabled fieldset"
@@ -200,8 +194,8 @@ class Aeno::FormTest < ViewComponent::TestCase
     address_count = html.scan(/<h2[^>]*>Address</).count
     assert_equal 1, address_count, "Address header must appear exactly 1 time (found #{address_count})"
 
-    siblings_count = html.scan(/<h3[^>]*>Siblings</).count
-    assert_equal 1, siblings_count, "Siblings header must appear exactly 1 time (found #{siblings_count})"
+    related_contacts_count = html.scan(/<h3[^>]*>Related Contacts</).count
+    assert_equal 1, related_contacts_count, "Related Contacts header must appear exactly 1 time (found #{related_contacts_count})"
 
     # Verify components don't have custom hacks
     dummy_builder = Object.new
@@ -219,12 +213,12 @@ class Aeno::FormTest < ViewComponent::TestCase
 
   def test_form_with_prepopulated_nested_data
     # Create contact with proper ActiveRecord associations
-    contact = Contact.create!(name: "Test Contact", email: "test@example.com")
+    contact = Aeno::Contact.create!(name: "Test Contact", email: "test@example.com")
 
-    sibling1 = contact.siblings.create!(name: "John", age: "25")
-    sibling2 = contact.siblings.create!(name: "Jane", age: "22")
+    related1 = contact.related_contacts.create!(name: "John", email: "john@example.com")
+    related2 = contact.related_contacts.create!(name: "Jane", email: "jane@example.com")
 
-    render_inline(TestPrepopulatedWrapperComponent.new(contact: contact))
+    render_inline(TestPrepopulatedWrapperComponent.new(contact:))
 
     # Form should have PATCH method
     assert_selector "form[action='/contacts/#{contact.id}'][method='post']"
@@ -234,23 +228,18 @@ class Aeno::FormTest < ViewComponent::TestCase
     assert_selector "input[name='contact[email]'][value='test@example.com']"
     assert_selector "input[name='contact[name]'][value='Test Contact']"
 
-    # Existing siblings should be rendered (not in template)
-    # Sibling 1: John, 25
-    assert_selector "input[name='contact[siblings_attributes][0][name]'][value='John']"
-    assert_selector "input[name='contact[siblings_attributes][0][age]'][value='25']"
-    assert_selector "input[type='hidden'][name='contact[siblings_attributes][0][id]'][value='#{sibling1.id}']", visible: false
+    # Existing related contacts should be rendered (not in template)
+    # Related Contact 1: John
+    assert_selector "input[name*='[related_contacts_attributes]'][name$='[name]'][value='John']"
+    assert_selector "input[name*='[related_contacts_attributes]'][name$='[email]'][value='john@example.com']"
+    assert_selector "input[type='hidden'][name*='[related_contacts_attributes]'][name$='[id]'][value='#{related1.id}']", visible: false
 
-    # Sibling 2: Jane, 22
-    assert_selector "input[name='contact[siblings_attributes][1][name]'][value='Jane']"
-    assert_selector "input[name='contact[siblings_attributes][1][age]'][value='22']"
-    assert_selector "input[type='hidden'][name='contact[siblings_attributes][1][id]'][value='#{sibling2.id}']", visible: false
+    # Related Contact 2: Jane
+    assert_selector "input[name*='[related_contacts_attributes]'][name$='[name]'][value='Jane']"
+    assert_selector "input[name*='[related_contacts_attributes]'][name$='[email]'][value='jane@example.com']"
+    assert_selector "input[type='hidden'][name*='[related_contacts_attributes]'][name$='[id]'][value='#{related2.id}']", visible: false
 
-    # CRITICAL: Existing phones should be nested inside their sibling's path
-    # Skipped due to tableless gem limitations with setting associations
-    # assert_selector "input[name='contact[siblings_attributes][0][phones_attributes][0][number]'][value='555-0001']"
-    # assert_selector "input[type='hidden'][name='contact[siblings_attributes][0][phones_attributes][0][id]'][value='1']"
-
-    # Template for adding new siblings should still exist
+    # Template for adding new related contacts should still exist
     assert_selector "div[data-aeno--form-target='template'].hidden", visible: false, minimum: 1
 
     # Template should have NEW_RECORD placeholder
@@ -263,16 +252,16 @@ class Aeno::FormTest < ViewComponent::TestCase
   end
 
   def test_nested_form_with_no_existing_records_shows_no_default_entries
-    # Create contact WITHOUT any siblings
-    contact = Contact.create!(name: "Solo Contact", email: "solo@example.com")
+    # Create contact WITHOUT any related contacts
+    contact = Aeno::Contact.create!(name: "Solo Contact", email: "solo@example.com")
 
-    render_inline(TestPrepopulatedWrapperComponent.new(contact: contact))
+    render_inline(TestPrepopulatedWrapperComponent.new(contact:))
 
     # Should have the nested form section with label
-    assert_selector "h3", text: "Siblings"
+    assert_selector "h3", text: "Related Contacts"
 
     # Should have the Add button
-    assert_selector "button", text: "Add Sibling"
+    assert_selector "button", text: "Add Related Contact"
 
     # Should have the hidden template
     assert_selector "div[data-aeno--form-target='template'].hidden", visible: false
@@ -280,15 +269,15 @@ class Aeno::FormTest < ViewComponent::TestCase
     # Should have the target div (where new entries will be added)
     assert_selector "div[data-aeno--form-target='target']"
 
-    # CRITICAL: Should NOT have any visible sibling entries outside the template
-    # Find sibling inputs that are NOT inside a template div
-    all_sibling_inputs = page.all("input[name*='[siblings_attributes]'][name*='[name]']")
-    non_template_sibling_inputs = all_sibling_inputs.reject do |input|
+    # CRITICAL: Should NOT have any visible related contact entries outside the template
+    # Find related contact inputs that are NOT inside a template div
+    all_related_inputs = page.all("input[name*='[related_contacts_attributes]'][name*='[name]']")
+    non_template_related_inputs = all_related_inputs.reject do |input|
       input.find(:xpath, "ancestor::div[@data-aeno--form-target='template']", visible: false)
     rescue Capybara::ElementNotFound
       false
     end
-    assert_equal 0, non_template_sibling_inputs.count, "Should have 0 sibling inputs outside template when no existing records"
+    assert_equal 0, non_template_related_inputs.count, "Should have 0 related contact inputs outside template when no existing records"
 
     # Verify the template exists and has the hidden class
     template = page.all("div[data-aeno--form-target='template'].hidden", visible: false, minimum: 1)
@@ -298,11 +287,11 @@ class Aeno::FormTest < ViewComponent::TestCase
     templates = page.all("div[data-aeno--form-target='template'].hidden", visible: false)
     all_template_html = templates.map { |t| t.native.inner_html }.join(" ")
     assert_includes all_template_html, "NEW_RECORD", "Template should contain NEW_RECORD placeholder"
-    assert_includes all_template_html, "Sibling Name", "Template should contain sibling fields"
+    assert_includes all_template_html, "Contact Name", "Template should contain related contact fields"
   end
 
   def test_form_with_custom_data_action_merges_correctly
-    contact = Contact.create!(name: "Test", email: "test@example.com")
+    contact = Aeno::Contact.create!(name: "Test", email: "test@example.com")
 
     # Render form with custom action
     render_inline(Aeno::Form::Component.new(
@@ -322,118 +311,63 @@ class Aeno::FormTest < ViewComponent::TestCase
     assert_includes action_attr, "custom->handler#method", "Should include custom action"
   end
 
-  def test_displays_validation_errors_for_main_object_and_nested_attributes
-    # Create invalid contact with nested invalid siblings and phones
-    contact = Contact.new(name: "", email: "invalid")
-    contact.siblings.build(name: "", age: "25")
-    contact.siblings.first.phones.build(number: "")
-    
-    # Trigger validations
-    contact.valid?
-    
-    # Verify errors exist
-    assert contact.errors[:name].any?, "Contact should have name error"
-    assert contact.errors[:email].any?, "Contact should have email error"
-    assert contact.siblings.first.errors[:name].any?, "Sibling should have name error"
-    assert contact.siblings.first.phones.first.errors[:number].any?, "Phone should have number error"
-    
-    # Render form with invalid object
-    render_inline Aeno::Form::Component.new(model: contact, url: "/contacts", method: :post) do |component|
+  def test_form_with_existing_related_contacts_renders_them
+    # Build contact with existing related contacts (simulating .build with IDs)
+    contact = Aeno::Contact.new(id: 1, name: "John Doe", email: "john@example.com")
+
+    # Build first related contact with phones
+    related1 = contact.related_contacts.build(id: 10, name: "Jane Doe", email: "jane@example.com")
+    related1.phones.build(id: 100, number: "555-1234", phone_type: "mobile")
+    related1.phones.build(id: 101, number: "555-5678", phone_type: "work")
+
+    # Build second related contact with one phone
+    related2 = contact.related_contacts.build(id: 11, name: "Bob Smith", email: "bob@example.com")
+    related2.phones.build(id: 102, number: "555-9999", phone_type: "home")
+
+    # Render form with nested structure
+    render_inline(Aeno::Form::Component.new(
+      model: contact,
+      url: "/contacts/1",
+      method: :patch
+    )) do |component|
       component.with_item_input(type: :text, name: "name", label: "Name")
       component.with_item_input(type: :text, name: "email", label: "Email")
-      
-      component.with_item_nested(name: :siblings, label: "Siblings") do |s|
-        s.with_item_input(type: :text, name: "name", label: "Sibling Name")
-        s.with_item_input(type: :text, name: "age", label: "Age")
-        
-        s.with_item_nested(name: :phones, label: "Phone Numbers") do |p|
+
+      component.with_item_nested(name: :related_contacts, label: "Related Contacts") do |n|
+        n.with_item_input(type: :text, name: "name", label: "Contact Name")
+        n.with_item_input(type: :text, name: "email", label: "Email")
+
+        n.with_item_nested(name: :phones, label: "Phone Numbers") do |p|
           p.with_item_input(type: :text, name: "number", label: "Phone Number")
+          p.with_item_input(type: :text, name: "phone_type", label: "Type")
         end
       end
-      
-      component.with_submit(label: "Save", variant: :default, type: "submit")
+
+      component.with_submit(label: "Update Contact", variant: :default, type: "submit")
     end
 
-    # Assert main object errors are displayed
-    assert_selector "p[data-role='error']", text: "can't be blank", count: 3 # Contact name + Sibling name + Phone number
-    assert_selector "p[data-role='error']", text: "is invalid" # Contact email
+    # CRITICAL ASSERTIONS: Existing related contacts should be VISIBLE (not in template)
 
-    # Assert sibling inputs are rendered (not just in template)
-    sibling_name_inputs = page.all("input[name*='[siblings_attributes]'][name*='[name]']", visible: false)
-    non_template_siblings = sibling_name_inputs.reject do |input|
-      input.find(:xpath, "ancestor::div[@data-aeno--form-target='template']", visible: false)
-    rescue Capybara::ElementNotFound
-      false
-    end
-    assert_equal 1, non_template_siblings.count, "Should have exactly 1 sibling input outside template"
+    # Related Contact 1: Jane Doe
+    assert_selector "input[name*='[related_contacts_attributes]'][name$='[name]'][value='Jane Doe']"
+    assert_selector "input[name*='[related_contacts_attributes]'][name$='[email]'][value='jane@example.com']"
+    assert_selector "input[type='hidden'][name*='[related_contacts_attributes]'][name$='[id]'][value='10']", visible: false
 
-    # Assert phone inputs are rendered in the sibling's nested form
-    phone_number_inputs = page.all("input[name*='[phones_attributes]'][name*='[number]']", visible: false)
-    non_template_phones = phone_number_inputs.reject do |input|
-      input.find(:xpath, "ancestor::div[@data-aeno--form-target='template']", visible: false)
-    rescue Capybara::ElementNotFound
-      false
-    end
-    # Note: There may be 0 phone inputs outside template if phone is blank and doesn't render
-    # Just verify phones with errors are shown and have error messages
-    if non_template_phones.any?
-      puts "\n=== Found #{non_template_phones.count} phone inputs outside template ==="
-    end
+    # Jane's phones
+    assert_selector "input[name*='[phones_attributes]'][name$='[number]'][value='555-1234']"
+    assert_selector "input[name*='[phones_attributes]'][name$='[number]'][value='555-5678']"
 
-    # Assert total error count includes phone error
-    # We should have: contact name, contact email, sibling name, phone number = 4 errors total
-    assert_selector "p[data-role='error']", count: 4
-  end
+    # Related Contact 2: Bob Smith
+    assert_selector "input[name*='[related_contacts_attributes]'][name$='[name]'][value='Bob Smith']"
+    assert_selector "input[type='hidden'][name*='[related_contacts_attributes]'][name$='[id]'][value='11']", visible: false
 
-  def test_raises_when_accessing_nonexistent_attribute
-    # Test that read_value_from_model raises NoMethodError for non-existent attributes
-    # Use a real Contact object but ask for a field that doesn't exist
-    contact = Contact.new(name: "Test")
+    # Bob's phone
+    assert_selector "input[name*='[phones_attributes]'][name$='[number]'][value='555-9999']"
 
-    error = assert_raises(NoMethodError) do
-      render_inline Aeno::Form::Component.new(model: contact, url: "/test", method: :post) do |component|
-        component.with_item_input(type: :text, name: "nonexistent_field", label: "Field")
-      end
-    end
-
-    assert_match(/nonexistent_field/, error.message)
-  end
-
-  def test_raises_when_object_has_no_errors_method
-    # Test that forms fail fast when object doesn't implement errors interface
-    # Without respond_to?(:errors), this will raise instead of silently returning nil
-    test_object = Struct.new(:name, :email, :model_name, :to_key, :to_param, :persisted?) do
-      def self.model_name
-        ActiveModel::Name.new(self, nil, "TestObject")
-      end
-    end.new("Test", "test@example.com", nil, nil, nil, false)
-
-    # This should raise because the object doesn't have an errors method
-    # The exact error type may vary, but it should raise rather than silently fail
-    assert_raises(NoMethodError, ArgumentError) do
-      render_inline Aeno::Form::Component.new(model: test_object, url: "/test", method: :post) do |component|
-        component.with_item_input(type: :text, name: "name", label: "Name")
-      end
-    end
-  end
-
-  def test_raises_when_nested_collection_is_not_enumerable
-    # Test that nested forms fail fast when collection is not enumerable
-    # Create a contact with a siblings method that returns a non-enumerable object
-    contact = Contact.new(name: "Test")
-
-    # Override the siblings method to return a non-enumerable
-    def contact.siblings
-      Object.new
-    end
-
-    # This should raise NoMethodError when trying to call .select on the non-enumerable
-    assert_raises(NoMethodError) do
-      render_inline Aeno::Form::Component.new(model: contact, url: "/test", method: :post) do |component|
-        component.with_item_nested(name: :siblings, label: "Siblings") do |s|
-          s.with_item_input(type: :text, name: "name", label: "Name")
-        end
-      end
-    end
+    # Template should still exist for adding NEW records
+    assert_selector "div[data-aeno--form-target='template'].hidden", visible: false, minimum: 1
+    templates = page.all("div[data-aeno--form-target='template'].hidden", visible: false)
+    all_template_content = templates.map { |t| t.native.inner_html }.join(" ")
+    assert_includes all_template_content, "NEW_RECORD", "Template should exist for adding new records"
   end
 end

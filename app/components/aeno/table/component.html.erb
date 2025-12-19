@@ -1,4 +1,4 @@
-<div <% if controller_name %>data-controller="<%= controller_name %>"<% end %> class="w-full">
+<div data-controller="<%= controller_name %>" class="w-full">
   <%# Batch actions toolbar (hidden by default, shown when rows selected) %>
   <% if selectable && batch_actions.any? %>
     <div data-aeno--table-target="batchToolbar" class="hidden mb-4 p-4 bg-gray-50 rounded-lg flex items-center justify-between">

@@ -6,10 +6,12 @@ module Aeno
       extend ActiveSupport::Concern
 
       class ExamplePreview
-        attr_reader :props
+        attr_reader :props, :block, :template
 
-        def initialize(props)
+        def initialize(props, block: nil, template: nil)
           @props = props
+          @block = block
+          @template = template
         end
       end
 
@@ -23,8 +25,12 @@ module Aeno
           @previews = []
         end
 
-        def preview(**props)
-          @previews << ExamplePreview.new(props)
+        def preview(**props, &block)
+          @previews << ExamplePreview.new(props, block:)
+        end
+
+        def preview_template(template:, **props)
+          @previews << ExamplePreview.new(props, template:)
         end
       end
 

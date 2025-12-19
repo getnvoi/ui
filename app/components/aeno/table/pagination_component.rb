@@ -18,7 +18,7 @@ module Aeno::Table
 
     def page_url(page)
       base = url || helpers.request.path
-      params = helpers.request.query_parameters.merge(page: page)
+      params = helpers.request.query_parameters.merge(page:)
       "#{base}?#{params.to_query}"
     end
 
