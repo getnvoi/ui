@@ -1,0 +1,26 @@
+<div data-controller="<%= controller_name %>"
+     data-<%= controller_name %>-duration-value="<%= duration %>"
+     class="<%= style(:container, type: type) %> animate-toast-enter">
+  <div class="p-4">
+    <div class="flex items-start">
+      <div class="flex-shrink-0">
+        <%= lucide_icon(icon_name, class: "h-6 w-6 #{style(:icon_color, type: type)}") %>
+      </div>
+      <div class="ml-3 w-0 flex-1 pt-0.5">
+        <p class="text-sm font-medium text-gray-900">
+          <%= message %>
+        </p>
+      </div>
+      <% if dismissible %>
+        <div class="ml-4 flex flex-shrink-0">
+          <button data-action="click-><%= controller_name %>#dismiss"
+                  type="button"
+                  class="inline-flex rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            <span class="sr-only">Close</span>
+            <%= lucide_icon("x", class: "h-5 w-5") %>
+          </button>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -18,6 +18,12 @@
     <%= javascript_importmap_tags "aeno/application", importmap: Aeno.importmap %>
   </head>
   <body class="<%= fixed_classes %>">
+    <!-- Flash/toast container -->
+    <div id="flash" class="fixed top-4 right-4 z-50 space-y-4 pointer-events-none"></div>
+
+    <!-- Drawers container -->
+    <div id="drawers-container"></div>
+
     <div class="w-screen h-screen flex">
       <%= ui("sidebar", css: "w-64 border-r border-gray-200 divide-y") do |s| %>
         <% s.with_header do %>
@@ -29,6 +35,8 @@
         <% @components&.each do |component| %>
           <% s.with_item(label: component.titleize, href: showcase_path(component), active: params[:id] == component) %>
         <% end %>
+
+        <% s.with_item(label: "📋 Contacts Example", href: aeno_examples_contacts_path, active: controller_name == "contacts") %>
 
         <% s.with_footer do %>
           v.0.0.1

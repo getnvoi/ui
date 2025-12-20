@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_19_100003) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_20_000001) do
   create_table "aeno_contact_relationships", force: :cascade do |t|
     t.integer "contact_id", null: false
     t.datetime "created_at", null: false
@@ -32,6 +32,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_19_100003) do
     t.string "job_title"
     t.string "name"
     t.text "notes"
+    t.string "state"
     t.datetime "updated_at", null: false
   end
 

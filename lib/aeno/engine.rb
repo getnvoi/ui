@@ -26,6 +26,12 @@ module Aeno
       end
     end
 
+    initializer "aeno.turbo_helpers" do
+      ActiveSupport.on_load(:action_controller) do
+        include Aeno::TurboHelpers
+      end
+    end
+
     initializer "aeno.importmap", before: "importmap" do |app|
       Aeno.importmap = Importmap::Map.new
       Aeno.importmap.draw(app.root.join("config/importmap.rb"))

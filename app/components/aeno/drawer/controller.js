@@ -7,6 +7,15 @@ export default class extends Controller {
 
   connect() {
     this.#stackAboveExisting();
+
+    // Auto-open on connect (for lazy shell creation pattern)
+    requestAnimationFrame(() => {
+      this.backgroundTarget.classList.add("opacity-100", "pointer-events-auto");
+      this.backgroundTarget.classList.remove("opacity-0", "pointer-events-none");
+      this.wrapperTarget.classList.remove("translate-x-full");
+      document.body.classList.add("overflow-hidden");
+    });
+
     document.addEventListener("keydown", this.handleKeydown);
   }
 
@@ -42,11 +51,8 @@ export default class extends Controller {
     this.#restoreBodyScroll();
 
     setTimeout(() => {
-      const frame = this.element.querySelector("turbo-frame");
-      if (frame) {
-        frame.src = undefined;
-        frame.innerHTML = "";
-      }
+      // For lazy shell creation: remove entire drawer element
+      this.element.remove();
     }, 300);
   }
 
