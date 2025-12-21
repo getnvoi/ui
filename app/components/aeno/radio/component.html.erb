@@ -1,18 +1,18 @@
 <div data-controller="<%= controller_name %>">
   <% if description %>
     <div class="flex gap-3">
-      <div class="flex h-6 shrink-0 items-center">
+      <div class="flex h-icon-md shrink-0 items-center">
         <%= radio_button_tag(name, value, checked, id: radio_id, disabled: disabled, aria: { describedby: "#{radio_id}-description" }, class: "relative size-4 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white not-checked:before:hidden checked:border-primary-solid checked:bg-primary-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-solid disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden") %>
       </div>
       <div class="text-sm/6">
-        <%= label_tag(radio_id, label, class: "font-medium text-gray-900") %>
+        <%= label_tag(radio_id, label, class: "font-weight-medium text-gray-900") %>
         <p id="<%= radio_id %>-description" class="text-gray-500"><%= description %></p>
       </div>
     </div>
   <% else %>
     <div class="flex items-center gap-x-3">
       <%= radio_button_tag(name, value, checked, id: radio_id, disabled: disabled, class: "relative size-4 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white not-checked:before:hidden checked:border-primary-solid checked:bg-primary-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-solid disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden") %>
-      <%= label_tag(radio_id, label, class: "block text-sm/6 font-medium text-gray-900") %>
+      <%= label_tag(radio_id, label, class: "block text-sm/6 font-weight-medium text-gray-900") %>
     </div>
   <% end %>
 </div>
