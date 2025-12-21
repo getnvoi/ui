@@ -11,15 +11,15 @@ module Aeno::Spinner
           inset-0
           pl-2
           mr-0
-          w-5
-          h-5
+          w-icon
+          h-icon
           before:content-['']
           before:box-border
           before:absolute
           before:top-1/2
           before:left-1/2
-          before:w-5
-          before:h-5
+          before:w-icon
+          before:h-icon
           before:-mt-2
           before:-ml-2
           before:rounded-full
@@ -30,11 +30,11 @@ module Aeno::Spinner
 
       variants do
         size do
-          xs { "before:w-3 before:h-3 before:-mt-1.5 before:-ml-1.5" }
-          sm { "before:w-4 before:h-4 before:-mt-2 before:-ml-2" }
-          default { "before:w-5 before:h-5 before:-mt-2.5 before:-ml-2.5" }
-          lg { "before:w-6 before:h-6 before:-mt-3 before:-ml-3" }
-          xl { "before:w-8 before:h-8 before:-mt-4 before:-ml-4" }
+          xs { "before:w-icon-xs before:h-icon-xs before:-mt-1.5 before:-ml-1.5" }
+          sm { "before:w-icon-sm before:h-icon-sm before:-mt-2 before:-ml-2" }
+          default { "before:w-icon before:h-icon before:-mt-2.5 before:-ml-2.5" }
+          lg { "before:w-icon-md before:h-icon-md before:-mt-3 before:-ml-3" }
+          xl { "before:w-icon-lg before:h-icon-lg before:-mt-4 before:-ml-4" }
         end
 
         variant do

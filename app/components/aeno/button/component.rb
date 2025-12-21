@@ -47,7 +47,7 @@ module Aeno::Button
 
         size do
           xs { "h-control-sm px-button-x-sm rounded-button-sm" }
-          xl { "h-control-lg px-button-x-lg rounded-button-lg [&>svg]:w-6 [&>svg]:h-6" }
+          xl { "h-control-lg px-button-x-lg rounded-button-lg [&>svg]:w-icon-md [&>svg]:h-icon-md" }
         end
       end
 

@@ -33,8 +33,8 @@ module Aeno
 
         variants do
           orientation do
-            horizontal { "px-2" }
-            vertical { "py-2" }
+            horizontal { "px-pad-sm" }
+            vertical { "py-pad-sm" }
           end
         end
       end

@@ -126,6 +126,7 @@
     --spacing-margin-sm: 0.25rem;
     --spacing-margin: 0.5rem;
     --spacing-margin-lg: 1rem;
+    --spacing-icon-xs: 0.75rem;
     --spacing-icon-sm: 1rem;
     --spacing-icon: 1.25rem;
     --spacing-icon-md: 1.5rem;
@@ -1407,6 +1408,9 @@
   .py-margin-sm {
     padding-block: var(--spacing-margin-sm);
   }
+  .py-pad {
+    padding-block: var(--spacing-pad);
+  }
   .py-pad-sm {
     padding-block: var(--spacing-pad-sm);
   }
@@ -1957,6 +1961,36 @@
       height: calc(var(--spacing) * 8);
     }
   }
+  .before\:h-icon {
+    &::before {
+      content: var(--tw-content);
+      height: var(--spacing-icon);
+    }
+  }
+  .before\:h-icon-lg {
+    &::before {
+      content: var(--tw-content);
+      height: var(--spacing-icon-lg);
+    }
+  }
+  .before\:h-icon-md {
+    &::before {
+      content: var(--tw-content);
+      height: var(--spacing-icon-md);
+    }
+  }
+  .before\:h-icon-sm {
+    &::before {
+      content: var(--tw-content);
+      height: var(--spacing-icon-sm);
+    }
+  }
+  .before\:h-icon-xs {
+    &::before {
+      content: var(--tw-content);
+      height: var(--spacing-icon-xs);
+    }
+  }
   .before\:w-3 {
     &::before {
       content: var(--tw-content);
@@ -1985,6 +2019,36 @@
     &::before {
       content: var(--tw-content);
       width: calc(var(--spacing) * 8);
+    }
+  }
+  .before\:w-icon {
+    &::before {
+      content: var(--tw-content);
+      width: var(--spacing-icon);
+    }
+  }
+  .before\:w-icon-lg {
+    &::before {
+      content: var(--tw-content);
+      width: var(--spacing-icon-lg);
+    }
+  }
+  .before\:w-icon-md {
+    &::before {
+      content: var(--tw-content);
+      width: var(--spacing-icon-md);
+    }
+  }
+  .before\:w-icon-sm {
+    &::before {
+      content: var(--tw-content);
+      width: var(--spacing-icon-sm);
+    }
+  }
+  .before\:w-icon-xs {
+    &::before {
+      content: var(--tw-content);
+      width: var(--spacing-icon-xs);
     }
   }
   .before\:w-px {
@@ -2545,6 +2609,11 @@
       height: calc(var(--spacing) * 6);
     }
   }
+  .\[\&\>svg\]\:h-icon-md {
+    &>svg {
+      height: var(--spacing-icon-md);
+    }
+  }
   .\[\&\>svg\]\:h-icon-sm {
     &>svg {
       height: var(--spacing-icon-sm);
@@ -2558,6 +2627,11 @@
   .\[\&\>svg\]\:w-6 {
     &>svg {
       width: calc(var(--spacing) * 6);
+    }
+  }
+  .\[\&\>svg\]\:w-icon-md {
+    &>svg {
+      width: var(--spacing-icon-md);
     }
   }
   .\[\&\>svg\]\:w-icon-sm {
